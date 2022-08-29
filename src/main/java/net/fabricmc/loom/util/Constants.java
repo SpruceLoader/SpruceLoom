@@ -28,6 +28,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.objectweb.asm.Opcodes;
 
 public class Constants {
+    public static final String DEBUG_PROP = "loom.debug";
+
 	public static final int ASM_VERSION = Opcodes.ASM9;
 	public static final String MERCURY_SOURCE_VERSION = JavaCore.VERSION_17;
 
@@ -128,11 +130,11 @@ public class Constants {
 		}
 	}
 
-	public static final class Knot {
-		public static final String KNOT_CLIENT = "net.fabricmc.loader.launch.knot.KnotClient";
-		public static final String KNOT_SERVER = "net.fabricmc.loader.launch.knot.KnotServer";
+	public static final class Launch {
+		public static final String MAIN_CLIENT = "xyz.unifycraft.uniloader.MainClient";
+		public static final String MAIN_SERVER = "xyz.unifycraft.uniloader.MainServer";
 
-		private Knot() {
+		private Launch() {
 		}
 	}
 

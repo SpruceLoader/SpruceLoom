@@ -275,7 +275,7 @@ public final class RunConfigSettings implements Named {
 	public void client() {
 		startFirstThread();
 		environment("client");
-		defaultMainClass(Constants.Knot.KNOT_CLIENT);
+		defaultMainClass(Constants.Launch.MAIN_CLIENT);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public final class RunConfigSettings implements Named {
 	public void server() {
 		programArg("nogui");
 		environment("server");
-		defaultMainClass(Constants.Knot.KNOT_SERVER);
+		defaultMainClass(Constants.Launch.MAIN_SERVER);
 	}
 
 	/**

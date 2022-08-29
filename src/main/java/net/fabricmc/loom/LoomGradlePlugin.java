@@ -29,6 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import net.fabricmc.loom.util.Constants;
+
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
 
@@ -54,6 +57,9 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	private static String LOOM_VERSION;
 
+    private static Project project;
+    private static boolean debug = false;
+
 	@Override
 	public void apply(PluginAware target) {
 		target.getPlugins().apply(LoomRepositoryPlugin.class);
@@ -61,11 +67,16 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 	}
 
 	public void apply(Project project) {
+        LoomGradlePlugin.project = project;
+
         if (LOOM_VERSION == null) {
             String version = LoomGradlePlugin.class.getPackage().getImplementationVersion();
             if (version == null) version = "Unknown";
             LOOM_VERSION = version;
         }
+
+        if (project.getExtensions().getExtraProperties().has(Constants.DEBUG_PROP))
+            debug = Boolean.parseBoolean(String.valueOf(project.getExtensions().getExtraProperties().get(Constants.DEBUG_PROP)));
 
 		project.getLogger().lifecycle("UniLoom: " + LOOM_VERSION);
 		LibraryLocationLogger.logLibraryVersions();
@@ -87,7 +98,16 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 		IdeaConfiguration.setup(project);
 	}
 
+    public static void log(String message) {
+        if (project == null) System.out.println(message);
+        else project.getLogger().lifecycle(message);
+    }
+
     public static String getLoomVersion() {
         return LOOM_VERSION;
+    }
+
+    public static boolean isDebug() {
+        return debug;
     }
 }

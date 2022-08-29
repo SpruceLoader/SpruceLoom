@@ -114,7 +114,7 @@ public final class SplitDecompileConfiguration extends DecompileConfiguration<Ma
 			project.getTasks().register(taskName, GenerateSourcesTask.class, options).configure(task -> {
 				configureAction.execute(task);
 				task.dependsOn(project.getTasks().named("validateAccessWidener"));
-				task.setDescription("Decompile minecraft using %s.".formatted(decompilerName));
+				task.setDescription("Decompile Minecraft using %s.".formatted(decompilerName));
 				task.setGroup(Constants.TaskGroup.UNILOADER);
 			});
 		});

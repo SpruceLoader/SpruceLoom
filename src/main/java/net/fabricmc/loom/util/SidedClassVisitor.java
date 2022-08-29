@@ -26,6 +26,8 @@ package net.fabricmc.loom.util;
 
 import java.util.Locale;
 
+import net.fabricmc.loom.LoomGradlePlugin;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 
@@ -49,13 +51,17 @@ public final class SidedClassVisitor extends ClassVisitor {
 		this.side = side;
 	}
 
+    @Override
 	public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
 		if (ANNOTATION_DESCRIPTOR.equals(descriptor)) hasExisting = true;
 		return super.visitAnnotation(descriptor, visible);
 	}
 
+    @Override
 	public void visitEnd() {
 		if (!hasExisting) {
+            if (LoomGradlePlugin.isDebug())
+                LoomGradlePlugin.log("Applying env annotation with side of " + side);
             AnnotationVisitor annotationVisitor = visitAnnotation(ANNOTATION_DESCRIPTOR, true);
 			annotationVisitor.visitEnum("value", ENVIRONMENT_DESCRIPTOR, side.toUpperCase(Locale.ROOT));
 			annotationVisitor.visitEnd();
