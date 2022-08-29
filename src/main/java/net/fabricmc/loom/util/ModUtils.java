@@ -41,15 +41,15 @@ public final class ModUtils {
 	}
 
 	public static boolean isMod(Path input) {
-		return ZipUtils.contains(input, "fabric.mod.json");
+		return ZipUtils.contains(input, "mod.metadata.json");
 	}
 
 	@Nullable
-	public static JsonObject getFabricModJson(Path path) {
+	public static JsonObject getModMetadataJson(Path path) {
 		try {
-			return ZipUtils.unpackGsonNullable(path, "fabric.mod.json", JsonObject.class);
+			return ZipUtils.unpackGsonNullable(path, "mod.metadata.json", JsonObject.class);
 		} catch (IOException e) {
-			throw new UncheckedIOException("Failed to extract fabric.mod.json from " + path, e);
+			throw new UncheckedIOException("Failed to extract mod.metadata.json from " + path, e);
 		}
 	}
 }

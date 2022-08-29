@@ -78,17 +78,16 @@ public final class SourceRemapperService implements SharedService {
 	}
 
 	public void remapSourcesJar(Path source, Path destination) throws IOException {
-		if (source.equals(destination)) {
-			throw new UnsupportedOperationException("Cannot remap in place");
-		}
+		if (source.equals(destination))
+			throw new UnsupportedOperationException("Cannot remap in place.");
 
 		Path srcPath = source;
 		boolean isSrcTmp = false;
 
-		// Create a temp directory with all of the sources
+		// Create a temp directory with all the sources.
 		if (!Files.isDirectory(source)) {
 			isSrcTmp = true;
-			srcPath = Files.createTempDirectory("fabric-loom-src");
+			srcPath = Files.createTempDirectory("uniloom-src");
 			ZipUtils.unpackAll(source, srcPath);
 		}
 

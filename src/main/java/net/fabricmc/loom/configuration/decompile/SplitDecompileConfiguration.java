@@ -90,7 +90,7 @@ public final class SplitDecompileConfiguration extends DecompileConfiguration<Ma
 
 			project.getTasks().register("genSourcesWith" + decompilerName, task -> {
 				task.setDescription("Decompile minecraft using %s.".formatted(decompilerName));
-				task.setGroup(Constants.TaskGroup.FABRIC);
+				task.setGroup(Constants.TaskGroup.UNILOADER);
 
 				task.dependsOn(project.getTasks().named("gen%sSourcesWith%s".formatted("Common", decompilerName)));
 				task.dependsOn(project.getTasks().named("gen%sSourcesWith%s".formatted("ClientOnly", decompilerName)));
@@ -99,7 +99,7 @@ public final class SplitDecompileConfiguration extends DecompileConfiguration<Ma
 
 		project.getTasks().register("genSources", task -> {
 			task.setDescription("Decompile minecraft using the default decompiler.");
-			task.setGroup(Constants.TaskGroup.FABRIC);
+			task.setGroup(Constants.TaskGroup.UNILOADER);
 
 			task.dependsOn(commonDecompileTask);
 			task.dependsOn(clientOnlyDecompileTask);
@@ -115,13 +115,13 @@ public final class SplitDecompileConfiguration extends DecompileConfiguration<Ma
 				configureAction.execute(task);
 				task.dependsOn(project.getTasks().named("validateAccessWidener"));
 				task.setDescription("Decompile minecraft using %s.".formatted(decompilerName));
-				task.setGroup(Constants.TaskGroup.FABRIC);
+				task.setGroup(Constants.TaskGroup.UNILOADER);
 			});
 		});
 
 		return project.getTasks().register("gen%sSources".formatted(name), task -> {
 			task.setDescription("Decompile minecraft (%s) using the default decompiler.".formatted(name));
-			task.setGroup(Constants.TaskGroup.FABRIC);
+			task.setGroup(Constants.TaskGroup.UNILOADER);
 
 			task.dependsOn(project.getTasks().named("gen%sSourcesWithCfr".formatted(name)));
 		});

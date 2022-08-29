@@ -68,7 +68,7 @@ public class SingleJarDecompileConfiguration extends DecompileConfiguration<Mapp
 
 				task.dependsOn(project.getTasks().named("validateAccessWidener"));
 				task.setDescription("Decompile minecraft using %s.".formatted(decompilerName));
-				task.setGroup(Constants.TaskGroup.FABRIC);
+				task.setGroup(Constants.TaskGroup.UNILOADER);
 
 				if (mappingsProvider.hasUnpickDefinitions()) {
 					task.dependsOn(project.getTasks().named("unpickJar"));
@@ -78,7 +78,7 @@ public class SingleJarDecompileConfiguration extends DecompileConfiguration<Mapp
 
 		project.getTasks().register("genSources", task -> {
 			task.setDescription("Decompile minecraft using the default decompiler.");
-			task.setGroup(Constants.TaskGroup.FABRIC);
+			task.setGroup(Constants.TaskGroup.UNILOADER);
 
 			task.dependsOn(project.getTasks().named("genSourcesWithCfr"));
 		});

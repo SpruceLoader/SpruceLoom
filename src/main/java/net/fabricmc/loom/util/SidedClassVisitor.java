@@ -32,14 +32,14 @@ import org.objectweb.asm.ClassVisitor;
 import net.fabricmc.tinyremapper.TinyRemapper;
 
 /**
- * Applies the @Environment annotation to all classes.
+ * Applies the @Env annotation to all classes.
  */
 public final class SidedClassVisitor extends ClassVisitor {
 	public static final TinyRemapper.ApplyVisitorProvider CLIENT = (cls, next) -> new SidedClassVisitor("client", next);
 	public static final TinyRemapper.ApplyVisitorProvider SERVER = (cls, next) -> new SidedClassVisitor("server", next);
 
-	private static final String ENVIRONMENT_DESCRIPTOR = "Lnet/fabricmc/api/Environment;";
-	private static final String SIDE_DESCRIPTOR = "Lnet/fabricmc/api/EnvType;";
+	private static final String ANNOTATION_DESCRIPTOR = "Lxyz/unifycraft/uniloader/loader/api/Env;";
+	private static final String ENVIRONMENT_DESCRIPTOR = "Lxyz/unifycraft/uniloader/loader/api/Environment;";
 
 	private final String side;
 	private boolean hasExisting = false;
@@ -49,20 +49,15 @@ public final class SidedClassVisitor extends ClassVisitor {
 		this.side = side;
 	}
 
-	@Override
 	public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-		if (ENVIRONMENT_DESCRIPTOR.equals(descriptor)) {
-			hasExisting = true;
-		}
-
+		if (ANNOTATION_DESCRIPTOR.equals(descriptor)) hasExisting = true;
 		return super.visitAnnotation(descriptor, visible);
 	}
 
-	@Override
 	public void visitEnd() {
 		if (!hasExisting) {
-			final AnnotationVisitor annotationVisitor = visitAnnotation(ENVIRONMENT_DESCRIPTOR, true);
-			annotationVisitor.visitEnum("value", SIDE_DESCRIPTOR, side.toUpperCase(Locale.ROOT));
+            AnnotationVisitor annotationVisitor = visitAnnotation(ANNOTATION_DESCRIPTOR, true);
+			annotationVisitor.visitEnum("value", ENVIRONMENT_DESCRIPTOR, side.toUpperCase(Locale.ROOT));
 			annotationVisitor.visitEnd();
 		}
 

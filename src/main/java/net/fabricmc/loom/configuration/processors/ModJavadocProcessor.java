@@ -121,7 +121,7 @@ public final class ModJavadocProcessor implements JarProcessor, GenerateSourcesT
 	public record ModJavadoc(String modId, MemoryMappingTree mappingTree) {
 		@Nullable
 		public static ModJavadoc fromModJar(Path path) throws IOException {
-			JsonObject jsonObject = ModUtils.getFabricModJson(path);
+			JsonObject jsonObject = ModUtils.getModMetadataJson(path);
 
 			if (jsonObject == null || !jsonObject.has("custom")) {
 				return null;

@@ -28,17 +28,28 @@ import org.eclipse.jdt.core.JavaCore;
 import org.objectweb.asm.Opcodes;
 
 public class Constants {
-	public static final String LIBRARIES_BASE = "https://libraries.minecraft.net/";
-	public static final String RESOURCES_BASE = "https://resources.download.minecraft.net/";
-	public static final String VERSION_MANIFESTS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
-	public static final String EXPERIMENTAL_VERSIONS = "https://maven.fabricmc.net/net/minecraft/experimental_versions.json";
-	public static final String FABRIC_REPOSITORY = "https://maven.fabricmc.net/";
-
 	public static final int ASM_VERSION = Opcodes.ASM9;
 	public static final String MERCURY_SOURCE_VERSION = JavaCore.VERSION_17;
 
 	private Constants() {
 	}
+
+    /**
+     * Constants for the mirrors/repositories.
+     */
+    public static final class Mirrors {
+        public static final String LIBRARIES_BASE_PROP = "loom.libraries_base";
+        public static final String RESOURCES_BASE_PROP = "loom.resources_base";
+        public static final String VERSION_MANIFESTS_PROP = "loom.version_manifests";
+        public static final String EXPERIMENTAL_VERSIONS_PROP = "loom.experimental_versions";
+        public static final String UNIFYCRAFT_REPOSITORY_PROP = "loom.unifycraft_repository";
+
+        public static final String LIBRARIES_BASE = "https://libraries.minecraft.net/";
+        public static final String RESOURCES_BASE = "https://resources.download.minecraft.net/";
+        public static final String VERSION_MANIFESTS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
+        public static final String EXPERIMENTAL_VERSIONS = "https://maven.fabricmc.net/net/minecraft/experimental_versions.json";
+        public static final String UNIFYCRAFT_REPOSITORY = "https://maven.unifycraft.xyz/releases/";
+    }
 
 	/**
 	 * Constants related to configurations.
@@ -126,7 +137,7 @@ public class Constants {
 	}
 
 	public static final class TaskGroup {
-		public static final String FABRIC = "fabric";
+		public static final String UNILOADER = "uniloader";
 		public static final String IDE = "ide";
 
 		private TaskGroup() {

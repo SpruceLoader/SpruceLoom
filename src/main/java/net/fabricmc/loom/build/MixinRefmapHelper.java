@@ -26,6 +26,7 @@ package net.fabricmc.loom.build;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -35,27 +36,30 @@ import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.NotNull;
 
 public final class MixinRefmapHelper {
-	private MixinRefmapHelper() { }
-
-	private static final String FABRIC_MOD_JSON = "fabric.mod.json";
+	private MixinRefmapHelper() {
+    }
 
 	@NotNull
-	public static Collection<String> getMixinConfigurationFiles(JsonObject fabricModJson) {
-		JsonArray mixins = fabricModJson.getAsJsonArray("mixins");
+	public static Collection<String> getMixinConfigurationFiles(JsonObject modMetadataJson) {
+        JsonObject loaderObj = modMetadataJson.getAsJsonObject("loader");
+        if (loaderObj == null) return Collections.emptyList();
 
-		if (mixins == null) {
-			return Collections.emptyList();
-		}
-
-		return StreamSupport.stream(mixins.spliterator(), false)
-				.map(e -> {
-					if (e instanceof JsonPrimitive str) {
-						return str.getAsString();
-					} else if (e instanceof JsonObject obj) {
-						return obj.get("config").getAsString();
-					} else {
-						throw new RuntimeException("Incorrect fabric.mod.json format");
-					}
-				}).collect(Collectors.toSet());
+		JsonArray mixinsArr = loaderObj.getAsJsonArray("mixins");
+		if (mixinsArr == null) { // We also support a single-string Mixin file.
+            JsonPrimitive mixinsPrim = loaderObj.getAsJsonPrimitive("mixins");
+            if (mixinsPrim == null) return Collections.emptyList();
+            return Set.of(mixinsPrim.getAsString());
+        } else { // We can use the array.
+            return StreamSupport.stream(mixinsArr.spliterator(), false)
+                    .map(e -> {
+                        if (e instanceof JsonPrimitive str) {
+                            return str.getAsString();
+                        } else if (e instanceof JsonObject obj) {
+                            return obj.get("config").getAsString();
+                        } else {
+                            throw new RuntimeException("Incorrect mod.metadata.json format");
+                        }
+                    }).collect(Collectors.toSet());
+        }
 	}
 }

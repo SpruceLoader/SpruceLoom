@@ -104,7 +104,7 @@ public class MinecraftLibraryProvider {
 		final boolean classpathArmNatives = !hasNativesToExtract && isArm && !IS_MACOS;
 
 		if (classpathArmNatives) {
-			LoomRepositoryPlugin.forceLWJGLFromMavenCentral(project);
+			LoomRepositoryPlugin.forceLwjglFromMavenCentral(project);
 		}
 
 		for (MinecraftVersionMeta.Library library : versionInfo.libraries()) {

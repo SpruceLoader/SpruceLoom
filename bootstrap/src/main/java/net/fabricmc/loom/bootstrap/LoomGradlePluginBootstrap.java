@@ -10,7 +10,7 @@ import org.gradle.api.plugins.PluginAware;
 import org.gradle.util.GradleVersion;
 
 /**
- * This bootstrap is compiled against a minimal gradle API and java 8, this allows us to show a nice error to users who run on unsupported configurations.
+ * This bootstrap is compiled against a minimal gradle API and Java 8, this allows us to show a nice error to users who run on unsupported configurations.
  */
 @SuppressWarnings("unused")
 public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
@@ -21,7 +21,6 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 	private static final String PLUGIN_CLASS_NAME = "net.fabricmc.loom.LoomGradlePlugin";
 	private static final String IDEA_VERSION_PROP_KEY = "idea.version";
 
-	@Override
 	public void apply(PluginAware pluginAware) {
 		if (pluginAware instanceof Project) {
 			Project project = (Project) pluginAware;
@@ -39,11 +38,10 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 	private void validateEnvironment() {
 		List<String> errors = new ArrayList<>();
 
-		if (!isValidGradleRuntime()) {
+		if (!isValidGradleRuntime())
 			errors.add(String.format("You are using an outdated version of Gradle (%s). Gradle %d or higher is required.", GradleVersion.current().getVersion(), MIN_SUPPORTED_MAJOR_GRADLE_VERSION));
-		}
 
-		if (!isValidJavaRuntime()) {
+        if (!isValidJavaRuntime()) {
 			errors.add(String.format("You are using an outdated version of Java (%s). Java %d or higher is required.", JavaVersion.current().getMajorVersion(), MIN_SUPPORTED_MAJOR_JAVA_VERSION));
 
 			if (Boolean.getBoolean("idea.active")) {
@@ -58,13 +56,10 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 			}
 		}
 
-		if (!isValidIdeaRuntime()) {
-			errors.add(String.format("You are using an outdated version of intellij idea (%s). Intellij idea %d or higher is required.", System.getProperty(IDEA_VERSION_PROP_KEY), MIN_SUPPORTED_MAJOR_IDEA_VERSION));
-		}
+		if (!isValidIdeaRuntime())
+			errors.add(String.format("You are using an outdated version of intelliJ idea (%s). IntelliJ idea %d or higher is required.", System.getProperty(IDEA_VERSION_PROP_KEY), MIN_SUPPORTED_MAJOR_IDEA_VERSION));
 
-		if (!errors.isEmpty()) {
-			throw new UnsupportedOperationException(String.join("\n", errors));
-		}
+		if (!errors.isEmpty()) throw new UnsupportedOperationException(String.join("\n", errors));
 	}
 
 	private static boolean isValidJavaRuntime() {
@@ -79,9 +74,8 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 	private static boolean isValidIdeaRuntime() {
 		String version = System.getProperty(IDEA_VERSION_PROP_KEY);
 
-		if (version == null) {
+		if (version == null)
 			return true;
-		}
 
 		int ideaYear = Integer.parseInt(version.substring(0, version.indexOf(".")));
 		return ideaYear >= MIN_SUPPORTED_MAJOR_IDEA_VERSION;
@@ -96,7 +90,7 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 		try {
 			return (BootstrappedPlugin) Class.forName(PLUGIN_CLASS_NAME).getConstructor().newInstance();
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to bootstrap loom", e);
+			throw new RuntimeException("Failed to bootstrap UniLoom", e);
 		}
 	}
 }

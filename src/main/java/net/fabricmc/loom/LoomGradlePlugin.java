@@ -24,8 +24,6 @@
 
 package net.fabricmc.loom;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
@@ -37,7 +35,6 @@ import org.gradle.api.plugins.PluginAware;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.bootstrap.BootstrappedPlugin;
 import net.fabricmc.loom.configuration.CompileConfiguration;
-import net.fabricmc.loom.configuration.FabricApiExtension;
 import net.fabricmc.loom.configuration.MavenPublication;
 import net.fabricmc.loom.configuration.ide.IdeConfiguration;
 import net.fabricmc.loom.configuration.ide.idea.IdeaConfiguration;
@@ -47,22 +44,30 @@ import net.fabricmc.loom.extension.LoomGradleExtensionImpl;
 import net.fabricmc.loom.task.LoomTasks;
 import net.fabricmc.loom.util.LibraryLocationLogger;
 
+import java.util.Objects;
+
 public class LoomGradlePlugin implements BootstrappedPlugin {
-	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	public static final String LOOM_VERSION = Objects.requireNonNullElse(LoomGradlePlugin.class.getPackage().getImplementationVersion(), "0.0.0+unknown");
+	public static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
+	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	private static String LOOM_VERSION;
 
 	@Override
 	public void apply(PluginAware target) {
 		target.getPlugins().apply(LoomRepositoryPlugin.class);
-
-		if (target instanceof Project project) {
-			apply(project);
-		}
+		if (target instanceof Project project) apply(project);
 	}
 
 	public void apply(Project project) {
-		project.getLogger().lifecycle("Fabric Loom: " + LOOM_VERSION);
+        if (LOOM_VERSION == null) {
+            String version = LoomGradlePlugin.class.getPackage().getImplementationVersion();
+            if (version == null) version = "Unknown";
+            LOOM_VERSION = version;
+        }
+
+		project.getLogger().lifecycle("UniLoom: " + LOOM_VERSION);
 		LibraryLocationLogger.logLibraryVersions();
 
 		// Apply default plugins
@@ -72,7 +77,6 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 
 		// Setup extensions
 		project.getExtensions().create(LoomGradleExtensionAPI.class, "loom", LoomGradleExtensionImpl.class, project, LoomFiles.create(project));
-		project.getExtensions().create("fabricApi", FabricApiExtension.class, project);
 
 		CompileConfiguration.setupConfigurations(project);
 		IdeConfiguration.setup(project);
@@ -82,4 +86,8 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 		DecompilerConfiguration.setup(project);
 		IdeaConfiguration.setup(project);
 	}
+
+    public static String getLoomVersion() {
+        return LOOM_VERSION;
+    }
 }

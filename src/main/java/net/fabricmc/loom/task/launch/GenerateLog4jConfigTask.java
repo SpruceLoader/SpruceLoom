@@ -38,7 +38,7 @@ public abstract class GenerateLog4jConfigTask extends AbstractLoomTask {
 	public void run() {
 		Path outputFile = getExtension().getFiles().getDefaultLog4jConfigFile().toPath();
 
-		try (InputStream is = GenerateLog4jConfigTask.class.getClassLoader().getResourceAsStream("log4j2.fabric.xml")) {
+		try (InputStream is = GenerateLog4jConfigTask.class.getClassLoader().getResourceAsStream("log4j2.uniloader.xml")) {
 			Files.deleteIfExists(outputFile);
 			Files.copy(is, outputFile);
 		} catch (IOException e) {

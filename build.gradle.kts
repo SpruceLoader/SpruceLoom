@@ -115,11 +115,13 @@ java {
 
 tasks {
     jar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
         manifest.attributes(
             "Implementation-Version" to project.version
         )
 
-        from(configurations.getByName("bootstrap").asFileTree.map {
+        from(bootstrap.map {
             if (it.isDirectory) it else zipTree(it)
         })
     }
@@ -135,9 +137,9 @@ tasks {
     jacocoTestReport {
         dependsOn(test)
         reports {
-            //xml.setRequired(false)
-            //csv.setRequired(false)
-            html.destination = file("${buildDir}/jacocoHtml")
+            xml.required.set(false)
+            csv.required.set(false)
+            html.outputLocation.set(file("${buildDir}/jacocoHtml"))
         }
     }
 
@@ -253,7 +255,7 @@ publishing {
     publications {
         create<MavenPublication>("plugin") {
             groupId = project.group.toString()
-            artifactId = extra["project.name"]?.toString() ?: throw MissingPropertyException("Project name is missing!")
+            artifactId = extra["project.name"]?.toString()?.toLowerCase() ?: throw MissingPropertyException("Project name is missing!")
             version = project.version.toString()
 
             from(components["java"])

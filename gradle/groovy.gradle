@@ -1,13 +1,16 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 tasks.withType(GenerateModuleMetadata) {
     doLast {
         def file = outputFile . get ().asFile
 
-        def metadata = new groovy.json.JsonSlurper().parseText(file.text)
+        def metadata = new JsonSlurper().parseText(file.text)
 
         metadata.variants.each {
             it.attributes["org.gradle.jvm.version"] = 8
         }
 
-        file.text = groovy.json.JsonOutput.toJson(metadata)
+        file.text = JsonOutput.toJson(metadata)
     }
 }

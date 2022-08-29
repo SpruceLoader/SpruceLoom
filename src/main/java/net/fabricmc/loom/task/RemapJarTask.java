@@ -138,14 +138,14 @@ public abstract class RemapJarTask extends AbstractRemapJarTask {
 		final LoomGradleExtension extension = LoomGradleExtension.get(getProject());
 		final MixinExtension mixinExtension = extension.getMixin();
 
-		final JsonObject fabricModJson = ModUtils.getFabricModJson(getInputFile().getAsFile().get().toPath());
+		final JsonObject modMetadataJson = ModUtils.getModMetadataJson(getInputFile().getAsFile().get().toPath());
 
-		if (fabricModJson == null) {
-			getProject().getLogger().warn("Could not find fabric.mod.json file in: " + getInputFile().getAsFile().get().getName());
+		if (modMetadataJson == null) {
+			getProject().getLogger().warn("Could not find mod.metadata.json file in: " + getInputFile().getAsFile().get().getName());
 			return;
 		}
 
-		final Collection<String> allMixinConfigs = MixinRefmapHelper.getMixinConfigurationFiles(fabricModJson);
+		final Collection<String> allMixinConfigs = MixinRefmapHelper.getMixinConfigurationFiles(modMetadataJson);
 
 		for (SourceSet sourceSet : mixinExtension.getMixinSourceSets()) {
 			MixinExtension.MixinInformationContainer container = Objects.requireNonNull(

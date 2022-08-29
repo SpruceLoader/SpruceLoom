@@ -46,17 +46,14 @@ public class LoomRepositoryPlugin implements Plugin<PluginAware> {
 		if (target instanceof Settings settings) {
 			declareRepositories(settings.getDependencyResolutionManagement().getRepositories(), LoomFiles.create(settings), settings);
 
-			// leave a marker so projects don't try to override these
+			// Leave a marker so projects don't try to override these
 			settings.getGradle().getPluginManager().apply(LoomRepositoryPlugin.class);
 		} else if (target instanceof Project project) {
-			if (project.getGradle().getPlugins().hasPlugin(LoomRepositoryPlugin.class)) {
+			if (project.getGradle().getPlugins().hasPlugin(LoomRepositoryPlugin.class))
 				return;
-			}
 
 			declareRepositories(project.getRepositories(), LoomFiles.create(project), project);
-		} else if (target instanceof Gradle) {
-			return;
-		} else {
+		} else if (!(target instanceof Gradle)) {
 			throw new IllegalArgumentException("Expected target to be a Project or Settings, but was a " + target.getClass());
 		}
 	}
@@ -67,8 +64,8 @@ public class LoomRepositoryPlugin implements Plugin<PluginAware> {
 			repo.setUrl(files.getRemappedModCache());
 		});
 		repositories.maven(repo -> {
-			repo.setName("Fabric");
-			repo.setUrl(MirrorUtil.getFabricRepository(target));
+			repo.setName("UnifyCraft");
+			repo.setUrl(MirrorUtil.getUnifyCraftRepository(target));
 		});
 
 		MavenArtifactRepository mojangRepo = repositories.maven(repo -> {
@@ -108,31 +105,27 @@ public class LoomRepositoryPlugin implements Plugin<PluginAware> {
 	}
 
 	public static void setupForLegacyVersions(Project project) {
-		// 1.4.7 contains an LWJGL version with an invalid maven pom, set the metadata sources to not use the pom for this version.
+		// 1.4.7 contains an LWJGL version with an invalid Maven POM, set the metadata sources to not use the POM for this version.
 		project.getRepositories().named("Mojang", MavenArtifactRepository.class, repo -> {
 			repo.metadataSources(sources -> {
-				// Only use the maven artifact and not the pom or gradle metadata.
+				// Only use the Maven artifact and not the POM or Gradle metadata.
 				sources.artifact();
 				sources.ignoreGradleMetadataRedirection();
 			});
 		});
 	}
 
-	public static void forceLWJGLFromMavenCentral(Project project) {
-		// Force LWJGL from central, as it contains all the platform natives.
+	public static void forceLwjglFromMavenCentral(Project project) {
+		// Force LWJGL from central repository, as it contains all the platform natives.
 		MavenArtifactRepository central = project.getRepositories().maven(repo -> {
 			repo.setName("MavenCentralLWJGL");
 			repo.setUrl(ArtifactRepositoryContainer.MAVEN_CENTRAL_URL);
-			repo.content(content -> {
-				content.includeGroup("org.lwjgl");
-			});
+			repo.content(content -> content.includeGroup("org.lwjgl"));
 		});
 
 		project.getRepositories().exclusiveContent(repository -> {
 			repository.forRepositories(central);
-			repository.filter(filter -> {
-				filter.includeGroup("org.lwjgl");
-			});
+			repository.filter(filter -> filter.includeGroup("org.lwjgl"));
 		});
 	}
 }

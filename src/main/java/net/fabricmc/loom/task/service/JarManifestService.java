@@ -50,7 +50,7 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 		Property<String> getMCEVersion();
 		Property<String> getMinecraftVersion();
 		Property<String> getTinyRemapperVersion();
-		Property<String> getFabricLoaderVersion();
+		Property<String> getUniLoaderVersion();
 		Property<MixinVersion> getMixinVersion();
 	}
 
@@ -61,11 +61,11 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 				Optional<String> tinyRemapperVersion = Optional.ofNullable(TinyRemapper.class.getPackage().getImplementationVersion());
 
 				params.getGradleVersion().set(GradleVersion.current().getVersion());
-				params.getLoomVersion().set(LoomGradlePlugin.LOOM_VERSION);
+				params.getLoomVersion().set(LoomGradlePlugin.getLoomVersion());
 				params.getMCEVersion().set(Constants.Dependencies.Versions.MIXIN_COMPILE_EXTENSIONS);
 				params.getMinecraftVersion().set(extension.getMinecraftProvider().minecraftVersion());
 				params.getTinyRemapperVersion().set(tinyRemapperVersion.orElse("unknown"));
-				params.getFabricLoaderVersion().set(getLoaderVersion(project).orElse("unknown"));
+				params.getUniLoaderVersion().set(getLoaderVersion(project).orElse("unknown"));
 				params.getMixinVersion().set(getMixinVersion(project).orElse(new MixinVersion("unknown", "unknown")));
 			});
 		});
@@ -73,36 +73,34 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 
 	public void apply(Manifest manifest, Map<String, String> extraValues) {
 		// Don't set when running the reproducible build tests as it will break them when anything updates
-		if (Boolean.getBoolean("loom.test.reproducible")) {
+		if (Boolean.getBoolean("loom.test.reproducible"))
 			return;
-		}
 
 		Attributes attributes = manifest.getMainAttributes();
 		Params p = getParameters();
 
-		attributes.putValue("Fabric-Gradle-Version", p.getGradleVersion().get());
-		attributes.putValue("Fabric-Loom-Version", p.getLoomVersion().get());
-		attributes.putValue("Fabric-Mixin-Compile-Extensions-Version", p.getMCEVersion().get());
-		attributes.putValue("Fabric-Minecraft-Version", p.getMinecraftVersion().get());
-		attributes.putValue("Fabric-Tiny-Remapper-Version", p.getTinyRemapperVersion().get());
-		attributes.putValue("Fabric-Loader-Version", p.getFabricLoaderVersion().get());
+		attributes.putValue("UniLoom-Gradle-Version", p.getGradleVersion().get());
+		attributes.putValue("UniLoom-Loom-Version", p.getLoomVersion().get());
+		attributes.putValue("UniLoom-Mixin-Compile-Extensions-Version", p.getMCEVersion().get());
+		attributes.putValue("UniLoom-Minecraft-Version", p.getMinecraftVersion().get());
+		attributes.putValue("UniLoom-Tiny-Remapper-Version", p.getTinyRemapperVersion().get());
+		attributes.putValue("UniLoom-Loader-Version", p.getUniLoaderVersion().get());
 
 		// This can be overridden by mods if required
-		if (!attributes.containsKey("Fabric-Mixin-Version")) {
-			attributes.putValue("Fabric-Mixin-Version", p.getMixinVersion().get().version());
-			attributes.putValue("Fabric-Mixin-Group", p.getMixinVersion().get().group());
+		if (!attributes.containsKey("UniLoom-Mixin-Version")) {
+			attributes.putValue("UniLoom-Mixin-Version", p.getMixinVersion().get().version());
+			attributes.putValue("UniLoom-Mixin-Group", p.getMixinVersion().get().group());
 		}
 
-		for (Map.Entry<String, String> entry : extraValues.entrySet()) {
+		for (Map.Entry<String, String> entry : extraValues.entrySet())
 			attributes.putValue(entry.getKey(), entry.getValue());
-		}
 	}
 
 	private static Optional<String> getLoaderVersion(Project project) {
 		LoomGradleExtension extension = LoomGradleExtension.get(project);
 
 		if (extension.getInstallerData() == null) {
-			project.getLogger().warn("Could not determine fabric loader version for jar manifest");
+			project.getLogger().warn("Could not determine UniLoader version for Jar manifest...");
 			return Optional.empty();
 		}
 
@@ -118,10 +116,8 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 				.stream()
 				.filter(dep -> "sponge-mixin".equals(dep.getName()))
 				.findFirst();
-
-		if (dependency.isEmpty()) {
-			project.getLogger().warn("Could not determine Mixin version for jar manifest");
-		}
+		if (dependency.isEmpty())
+			project.getLogger().warn("Could not determine Mixin version for JAR manifest...");
 
 		return dependency.map(d -> new MixinVersion(d.getGroup(), d.getVersion()));
 	}

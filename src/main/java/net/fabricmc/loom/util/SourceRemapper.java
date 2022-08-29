@@ -120,9 +120,9 @@ public class SourceRemapper {
 		boolean isSrcTmp = false;
 
 		if (!source.isDirectory()) {
-			// create tmp directory
+			// Create tmp directory.
 			isSrcTmp = true;
-			srcPath = Files.createTempDirectory("fabric-loom-src");
+			srcPath = Files.createTempDirectory("uniloom-src");
 			ZipUtils.unpackAll(source.toPath(), srcPath);
 		}
 
@@ -214,7 +214,7 @@ public class SourceRemapper {
 				try {
 					Files.copy(path, targetPath);
 				} catch (IOException e) {
-					logger.warn("Could not copy non-java sources '" + source + "' fully!", e);
+					logger.warn("Could not copy non-Java sources '" + source + "' fully!", e);
 				}
 			}
 		});
