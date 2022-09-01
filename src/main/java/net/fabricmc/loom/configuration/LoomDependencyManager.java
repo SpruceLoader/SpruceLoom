@@ -27,9 +27,13 @@ package net.fabricmc.loom.configuration;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
@@ -82,24 +86,22 @@ public class LoomDependencyManager {
 
 		sourceRemapper.remapAll();
 
-		if (extension.getInstallerData() == null) {
-			project.getLogger().warn("fabric-installer.json not found in classpath!");
-		}
+		if (extension.getInstallerData() == null)
+			project.getLogger().warn("uniloader-installer.json not found in classpath!");
 
-		for (Runnable runnable : afterTasks) {
+		for (Runnable runnable : afterTasks)
 			runnable.run();
-		}
 	}
 
 	public static JsonObject readInstallerJson(File file) {
 		try {
-			byte[] bytes = ZipUtils.unpackNullable(file.toPath(), "fabric-installer.json");
+			byte[] bytes = ZipUtils.unpackNullable(file.toPath(), "uniloader-installer.json");
 
 			if (bytes == null) {
 				return null;
 			}
 
-			return LoomGradlePlugin.GSON.fromJson(new String(bytes, StandardCharsets.UTF_8), JsonObject.class);
+			return JsonParser.parseString(new String(bytes, StandardCharsets.UTF_8)).getAsJsonObject();
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to try and read installer json from " + file, e);
 		}
@@ -112,32 +114,43 @@ public class LoomDependencyManager {
 		Configuration loaderDepsConfig = project.getConfigurations().getByName(Constants.Configurations.LOADER_DEPENDENCIES);
 		Configuration apDepsConfig = project.getConfigurations().getByName("annotationProcessor");
 
-		libraries.get("common").getAsJsonArray().forEach(jsonElement -> {
-			String name = jsonElement.getAsJsonObject().get("name").getAsString();
+        List<String> sides = Arrays.asList(
+                "common",
+                "client",
+                "server"
+        );
 
-			ExternalModuleDependency modDep = (ExternalModuleDependency) project.getDependencies().create(name);
-			modDep.setTransitive(false);
-			loaderDepsConfig.getDependencies().add(modDep);
+        for (String side : sides) {
+            if (!libraries.has(side)) continue;
+            JsonElement sideElement = libraries.get(side);
+            if (!sideElement.isJsonArray()) continue;
+            sideElement.getAsJsonArray().forEach(element -> {
+                if (!element.isJsonObject()) return;
 
-			// TODO: work around until https://github.com/FabricMC/Mixin/pull/60 and https://github.com/FabricMC/fabric-mixin-compile-extensions/issues/14 is fixed.
-			if (!IdeaUtils.isIdeaSync() && extension.getMixin().getUseLegacyMixinAp().get()) {
-				apDepsConfig.getDependencies().add(modDep);
-			}
+                String name = element.getAsJsonObject().get("artifact").getAsString();
 
-			project.getLogger().debug("Loom adding " + name + " from installer JSON");
+                ExternalModuleDependency modDep = (ExternalModuleDependency) project.getDependencies().create(name);
+                modDep.setTransitive(false);
+                loaderDepsConfig.getDependencies().add(modDep);
 
-			// If user choose to use dependencyResolutionManagement, then they should declare
-			// these repositories manually in the settings file.
-			if (jsonElement.getAsJsonObject().has("url") && !project.getGradle().getPlugins().hasPlugin(LoomRepositoryPlugin.class)) {
-				String url = jsonElement.getAsJsonObject().get("url").getAsString();
-				long count = project.getRepositories().stream().filter(artifactRepository -> artifactRepository instanceof MavenArtifactRepository)
-						.map(artifactRepository -> (MavenArtifactRepository) artifactRepository)
-						.filter(mavenArtifactRepository -> mavenArtifactRepository.getUrl().toString().equalsIgnoreCase(url)).count();
+                // TODO: work around until https://github.com/FabricMC/Mixin/pull/60 and https://github.com/FabricMC/fabric-mixin-compile-extensions/issues/14 is fixed.
+                if (!IdeaUtils.isIdeaSync() && extension.getMixin().getUseLegacyMixinAp().get())
+                    apDepsConfig.getDependencies().add(modDep);
+                project.getLogger().debug("Loom adding " + name + " from installer JSON.");
 
-				if (count == 0) {
-					project.getRepositories().maven(mavenArtifactRepository -> mavenArtifactRepository.setUrl(jsonElement.getAsJsonObject().get("url").getAsString()));
-				}
-			}
-		});
+                // If user choose to use dependencyResolutionManagement, then they should declare
+                // these repositories manually in the settings file.
+                if (element.getAsJsonObject().has("url") && !project.getGradle().getPlugins().hasPlugin(LoomRepositoryPlugin.class)) {
+                    String url = element.getAsJsonObject().get("url").getAsString();
+                    long count = project.getRepositories().stream().filter(artifactRepository -> artifactRepository instanceof MavenArtifactRepository)
+                            .map(artifactRepository -> (MavenArtifactRepository) artifactRepository)
+                            .filter(mavenArtifactRepository -> mavenArtifactRepository.getUrl().toString().equalsIgnoreCase(url)).count();
+
+                    if (count == 0) {
+                        project.getRepositories().maven(mavenArtifactRepository -> mavenArtifactRepository.setUrl(element.getAsJsonObject().get("url").getAsString()));
+                    }
+                }
+            });
+        }
 	}
 }
