@@ -55,7 +55,7 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 		}
 
 		final LaunchConfig launchConfig = new LaunchConfig()
-				.property("fabric.development", "true")
+				.property("launch.development", "true")
 				.property("fabric.remapClasspathFile", getExtension().getFiles().getRemapClasspathFile().getAbsolutePath())
 				.property("log4j.configurationFile", getAllLog4JConfigFiles())
 				.property("log4j2.formatMsgNoLookups", "true")

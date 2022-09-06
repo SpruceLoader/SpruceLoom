@@ -273,6 +273,7 @@ public final class RunConfigSettings implements Named {
 	 * Configure run config with the default client options.
 	 */
 	public void client() {
+        programArg("--launchListener " + Constants.Launch.LAUNCH_LISTENER);
 		startFirstThread();
 		environment("client");
 		defaultMainClass(Constants.Launch.MAIN_CLIENT);
@@ -282,6 +283,7 @@ public final class RunConfigSettings implements Named {
 	 * Configure run config with the default server options.
 	 */
 	public void server() {
+        programArg("--launchListener " + Constants.Launch.LAUNCH_LISTENER);
 		programArg("nogui");
 		environment("server");
 		defaultMainClass(Constants.Launch.MAIN_SERVER);

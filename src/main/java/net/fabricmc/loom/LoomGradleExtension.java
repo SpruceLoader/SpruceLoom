@@ -24,6 +24,7 @@
 
 package net.fabricmc.loom;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Supplier;
@@ -60,6 +61,8 @@ public interface LoomGradleExtension extends LoomGradleExtensionAPI {
 	Mercury getOrCreateSrcMercuryCache(int id, Supplier<Mercury> factory);
 
 	ConfigurableFileCollection getUnmappedModCollection();
+
+    void useInstallerData(String version, File file);
 
 	void setInstallerData(InstallerData data);
 

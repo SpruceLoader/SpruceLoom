@@ -114,6 +114,17 @@ java {
 }
 
 tasks {
+    listOf(
+        "Releases",
+        "Snapshots"
+    ).forEach { branch ->
+        register("publishPluginTo$branch") {
+            group = "uniloom"
+            dependsOn("publishUniloomPluginMarkerMavenPublicationToUnifyCraft${branch}Repository")
+            dependsOn("publishPluginMavenPublicationToUnifyCraft${branch}Repository")
+        }
+    }
+
     jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 

@@ -24,6 +24,7 @@
 
 package net.fabricmc.loom.extension;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -189,7 +190,11 @@ public class LoomGradleExtensionImpl extends LoomGradleExtensionApiImpl implemen
 		return unmappedMods;
 	}
 
-	public void setInstallerData(InstallerData object) {
+    public void useInstallerData(String version, File file) {
+        this.installerData = new InstallerData(version, LoomDependencyManager.readInstallerJson(false, file, null));
+    }
+
+    public void setInstallerData(InstallerData object) {
 		this.installerData = object;
 	}
 

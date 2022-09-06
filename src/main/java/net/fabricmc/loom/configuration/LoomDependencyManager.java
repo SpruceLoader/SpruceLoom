@@ -25,6 +25,8 @@
 package net.fabricmc.loom.configuration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +51,9 @@ import net.fabricmc.loom.util.Constants;
 import net.fabricmc.loom.util.SourceRemapper;
 import net.fabricmc.loom.util.ZipUtils;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class LoomDependencyManager {
 	public void handleDependencies(Project project) {
 		List<Runnable> afterTasks = new ArrayList<>();
@@ -63,7 +68,7 @@ public class LoomDependencyManager {
 
 			for (Dependency dependency : configuration.getAllDependencies()) {
 				for (File input : configuration.files(dependency)) {
-					JsonObject jsonObject = readInstallerJson(input);
+					JsonObject jsonObject = readInstallerJson(true, input, "uniloader-installer.json");
 
 					if (jsonObject != null) {
 						if (extension.getInstallerData() != null) {
@@ -87,15 +92,17 @@ public class LoomDependencyManager {
 		sourceRemapper.remapAll();
 
 		if (extension.getInstallerData() == null)
-			project.getLogger().warn("uniloader-installer.json not found in classpath!");
+			project.getLogger().warn("UniLoader installer data not found in classpath!");
 
 		for (Runnable runnable : afterTasks)
 			runnable.run();
 	}
 
-	public static JsonObject readInstallerJson(File file) {
+	public static JsonObject readInstallerJson(boolean nested, @NotNull File file, @Nullable String path) {
 		try {
-			byte[] bytes = ZipUtils.unpackNullable(file.toPath(), "uniloader-installer.json");
+			byte[] bytes = nested ?
+                    ZipUtils.unpackNullable(file.toPath(), path) :
+                    readFile(file);
 
 			if (bytes == null) {
 				return null;
@@ -103,9 +110,17 @@ public class LoomDependencyManager {
 
 			return JsonParser.parseString(new String(bytes, StandardCharsets.UTF_8)).getAsJsonObject();
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to try and read installer json from " + file, e);
+			throw new RuntimeException("Failed to try and read installer JSON from " + file, e);
 		}
 	}
+
+    private static byte[] readFile(File file) {
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            return inputStream.readAllBytes();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read the content from " + file, e);
+        }
+    }
 
 	private static void handleInstallerJson(JsonObject jsonObject, Project project) {
 		LoomGradleExtension extension = LoomGradleExtension.get(project);
