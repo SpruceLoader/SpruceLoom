@@ -13,5 +13,5 @@ where those classes aren't present. We needed to fork the
 project so we could adapt it for use with [UniLoader][uniloader]
 and [UniLaunchwrapper][launchwrapper].
 
-[uniloader]: ../UniLoader
-[launchwrapper]: ../UniLaunchwrapper
+[uniloader]: https://github.com/UnifyCraft/UniLoader
+[launchwrapper]: https://github.com/UnifyCraft/UniLaunchwrapper
