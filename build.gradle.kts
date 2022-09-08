@@ -25,6 +25,7 @@ apply(from = "gradle/groovy.gradle")
 
 repositories {
     maven("https://maven.fabricmc.net/")
+    maven("https://maven.unifycraft.xyz/releases/")
     mavenCentral()
 }
 
@@ -48,7 +49,7 @@ dependencies {
     // libraries
     implementation("commons-io:commons-io:2.11.0")
     implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.ow2.asm:asm:9.3")
     implementation("org.ow2.asm:asm-analysis:9.3")
@@ -58,7 +59,7 @@ dependencies {
     implementation("com.github.mizosoft.methanol:methanol:1.7.0")
 
     // game handling utils
-    implementation("net.fabricmc:stitch:0.6.2") {
+    implementation("xyz.unifycraft:stitch:1.0.0") {
         exclude(module = "enigma")
     }
 
@@ -79,7 +80,7 @@ dependencies {
     implementation("net.fabricmc:mercury:0.2.6")
 
     // Kotlin
-    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2") {
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0") {
         isTransitive = false
     }
 
@@ -88,15 +89,15 @@ dependencies {
 
     // Testing
     testImplementation(gradleTestKit())
-    testImplementation("org.spockframework:spock-core:2.1-groovy-3.0") {
+    testImplementation("org.spockframework:spock-core:2.2-groovy-3.0") {
         exclude(module = "groovy-all")
     }
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    testImplementation("io.javalin:javalin:4.6.1") {
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("io.javalin:javalin:4.6.4") {
         exclude(group = "org.jetbrains.kotlin")
     }
     testImplementation("net.fabricmc:fabric-installer:0.9.0")
-    testImplementation("org.mockito:mockito-core:4.6.1")
+    testImplementation("org.mockito:mockito-core:4.7.0")
 
     compileOnly("org.jetbrains:annotations:23.0.0")
     testCompileOnly("org.jetbrains:annotations:23.0.0")
@@ -115,7 +116,7 @@ java {
 
 tasks {
     listOf(
-        "Releases",
+        "Release",
         "Snapshots"
     ).forEach { branch ->
         register("publishPluginTo$branch") {
