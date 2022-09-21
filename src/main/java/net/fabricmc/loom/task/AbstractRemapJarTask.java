@@ -62,9 +62,9 @@ import net.fabricmc.loom.util.ZipUtils;
 
 public abstract class AbstractRemapJarTask extends Jar {
 	public static final String MANIFEST_PATH = "META-INF/MANIFEST.MF";
-	public static final String MANIFEST_NAMESPACE_KEY = "Fabric-Mapping-Namespace";
-	public static final String MANIFEST_SPLIT_ENV_KEY = "Fabric-Loom-Split-Environment";
-	public static final String MANIFEST_CLIENT_ENTRIES_KEY = "Fabric-Loom-Client-Only-Entries";
+	public static final String MANIFEST_NAMESPACE_KEY = "UniLoader-Mapping-Namespace";
+	public static final String MANIFEST_SPLIT_ENV_KEY = "UniLoader-Loom-Split-Environment";
+	public static final String MANIFEST_CLIENT_ENTRIES_KEY = "UniLoader-Loom-Client-Only-Entries";
 	public static final Attributes.Name MANIFEST_SPLIT_ENV_NAME = new Attributes.Name(MANIFEST_SPLIT_ENV_KEY);
 	public static final Attributes.Name MANIFEST_CLIENT_ENTRIES_NAME = new Attributes.Name(MANIFEST_CLIENT_ENTRIES_KEY);
 

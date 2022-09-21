@@ -115,8 +115,8 @@ public class RunConfig {
 		runConfig.eclipseProjectName = project.getExtensions().getByType(EclipseModel.class).getProject().getName();
 
 		runConfig.mainClass = "net.fabricmc.devlaunchinjector.Main";
-		runConfig.vmArgs.add("-Dfabric.dli.config=" + encodeEscaped(extension.getFiles().getDevLauncherConfig().getAbsolutePath()));
-		runConfig.vmArgs.add("-Dfabric.dli.env=" + environment.toLowerCase());
+		runConfig.vmArgs.add("-loader.dli.config=" + encodeEscaped(extension.getFiles().getDevLauncherConfig().getAbsolutePath()));
+		runConfig.vmArgs.add("-loader.dli.env=" + environment.toLowerCase());
 	}
 
 	// Turns camelCase/PascalCase into Capital Case
@@ -178,7 +178,7 @@ public class RunConfig {
 		// Custom parameters
 		runConfig.programArgs.addAll(settings.getProgramArgs());
 		runConfig.vmArgs.addAll(settings.getVmArgs());
-		runConfig.vmArgs.add("-Dfabric.dli.main=" + getMainClass(environment, extension, defaultMain));
+		runConfig.vmArgs.add("-loader.dli.main=" + getMainClass(environment, extension, defaultMain));
 		runConfig.environmentVariables = new HashMap<>();
 		runConfig.environmentVariables.putAll(settings.getEnvironmentVariables());
 		runConfig.projectName = project.getName();

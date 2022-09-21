@@ -35,7 +35,6 @@ import java.util.List;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
@@ -43,7 +42,6 @@ import org.gradle.api.artifacts.ExternalModuleDependency;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
 import net.fabricmc.loom.LoomGradleExtension;
-import net.fabricmc.loom.LoomGradlePlugin;
 import net.fabricmc.loom.LoomRepositoryPlugin;
 import net.fabricmc.loom.configuration.ide.idea.IdeaUtils;
 import net.fabricmc.loom.configuration.mods.ModConfigurationRemapper;
@@ -62,7 +60,7 @@ public class LoomDependencyManager {
 		LoomGradleExtension extension = LoomGradleExtension.get(project);
 
 		if (extension.getInstallerData() == null) {
-			//If we've not found the installer JSON we've probably skipped remapping Fabric loader, let's go looking
+			//If we've not found the installer JSON we've probably skipped remapping the loader, let's go looking
 			project.getLogger().info("Searching through modCompileClasspath for installer JSON");
 			final Configuration configuration = project.getConfigurations().getByName(Constants.Configurations.MOD_COMPILE_CLASSPATH);
 

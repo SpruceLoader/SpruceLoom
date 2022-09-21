@@ -198,11 +198,11 @@ public class InterfaceInjectionProcessor implements JarProcessor, GenerateSource
 	}
 
 	private List<InjectedInterface> getSourceInjectedInterface(SourceSet sourceSet) {
-		final File fabricModJson;
+		final File modJson;
 
 		try {
-			fabricModJson = sourceSet.getResources()
-					.matching(patternFilterable -> patternFilterable.include("fabric.mod.json"))
+			modJson = sourceSet.getResources()
+					.matching(patternFilterable -> patternFilterable.include("mod.metadata.json"))
 					.getSingleFile();
 		} catch (IllegalStateException e) {
 			// File not found
@@ -212,9 +212,9 @@ public class InterfaceInjectionProcessor implements JarProcessor, GenerateSource
 		final String jsonString;
 
 		try {
-			jsonString = Files.readString(fabricModJson.toPath(), StandardCharsets.UTF_8);
+			jsonString = Files.readString(modJson.toPath(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			throw new UncheckedIOException("Failed to read fabric.mod.json", e);
+			throw new UncheckedIOException("Failed to read mod.metadata.json", e);
 		}
 
 		final JsonObject jsonObject = LoomGradlePlugin.GSON.fromJson(jsonString, JsonObject.class);

@@ -49,7 +49,7 @@ public class RemapTaskConfiguration {
 		final TaskContainer tasks = project.getTasks();
 		final LoomGradleExtension extension = LoomGradleExtension.get(project);
 
-		if (getBooleanProperty(project, "fabric.loom.dontRemap")) {
+		if (getBooleanProperty(project, "uniloom.dontRemap")) {
 			extension.getUnmappedModCollection().from(project.getTasks().getByName(JavaPlugin.JAR_TASK_NAME));
 			return;
 		}
@@ -60,7 +60,7 @@ public class RemapTaskConfiguration {
 
 			// Basic task setup
 			task.dependsOn(jarTask);
-			task.setDescription("Remaps the built project jar to intermediary mappings.");
+			task.setDescription("Remaps the built project JAR to intermediary mappings.");
 			task.setGroup(Constants.TaskGroup.UNILOADER);
 			project.getArtifacts().add(JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME, task);
 			project.getArtifacts().add(JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME, task);
@@ -81,7 +81,7 @@ public class RemapTaskConfiguration {
 
 		trySetupSourceRemapping(project);
 
-		if (getBooleanProperty(project, "fabric.loom.disableRemappedVariants")) {
+		if (getBooleanProperty(project, "uniloom.disableRemappedVariants")) {
 			return;
 		}
 
@@ -132,7 +132,7 @@ public class RemapTaskConfiguration {
 
 		tasks.named(BasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(remapSourcesTask));
 
-		if (getBooleanProperty(project, "fabric.loom.disableRemappedVariants")) {
+		if (getBooleanProperty(project, "uniloom.disableRemappedVariants")) {
 			return;
 		}
 
@@ -151,7 +151,7 @@ public class RemapTaskConfiguration {
 				configuration.getArtifacts().removeIf(a -> a.getFile().equals(sourcesJarTask.getArchiveFile().get().getAsFile()));
 			} else {
 				// Sources jar may not have been created with withSourcesJar
-				project.getLogger().warn("Not publishing sources jar as it was not found. Use java.withSourcesJar() to fix.");
+				project.getLogger().warn("Not publishing sources JAR as it was not found. Use java.withSourcesJar() to fix.");
 			}
 		});
 	}

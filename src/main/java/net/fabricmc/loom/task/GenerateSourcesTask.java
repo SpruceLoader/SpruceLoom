@@ -200,7 +200,7 @@ public abstract class GenerateSourcesTask extends AbstractLoomTask {
 
 	private boolean useProcessIsolation() {
 		// Useful if you want to debug the decompiler, make sure you run gradle with enough memory.
-		return !Boolean.getBoolean("fabric.loom.genSources.debug");
+		return !Boolean.getBoolean("uniloom.genSources.debug");
 	}
 
 	public interface DecompileParams extends WorkParameters {

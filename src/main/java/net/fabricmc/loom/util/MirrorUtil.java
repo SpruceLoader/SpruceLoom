@@ -27,33 +27,39 @@ package net.fabricmc.loom.util;
 import org.gradle.api.plugins.ExtensionAware;
 
 public class MirrorUtil {
-	public static String getLibrariesBase(ExtensionAware aware) {
-		if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.LIBRARIES_BASE_PROP))
-			return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.LIBRARIES_BASE_PROP));
-		return Constants.Mirrors.LIBRARIES_BASE;
-	}
+    public static String getLibrariesBase(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.LIBRARIES_BASE_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.LIBRARIES_BASE_PROP));
+        return Constants.Mirrors.LIBRARIES_BASE;
+    }
 
-	public static String getResourcesBase(ExtensionAware aware) {
-		if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.RESOURCES_BASE_PROP))
-			return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.RESOURCES_BASE_PROP));
-		return Constants.Mirrors.RESOURCES_BASE;
-	}
+    public static String getResourcesBase(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.RESOURCES_BASE_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.RESOURCES_BASE_PROP));
+        return Constants.Mirrors.RESOURCES_BASE;
+    }
 
-	public static String getVersionManifests(ExtensionAware aware) {
-		if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.VERSION_MANIFESTS_PROP))
-			return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.VERSION_MANIFESTS_PROP));
-		return Constants.Mirrors.VERSION_MANIFESTS;
-	}
+    public static String getVersionManifests(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.VERSION_MANIFESTS_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.VERSION_MANIFESTS_PROP));
+        return Constants.Mirrors.VERSION_MANIFESTS;
+    }
 
-	public static String getExperimentalVersions(ExtensionAware aware) {
-		if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.EXPERIMENTAL_VERSIONS_PROP))
-			return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.EXPERIMENTAL_VERSIONS_PROP));
-		return Constants.Mirrors.EXPERIMENTAL_VERSIONS;
-	}
+    public static String getExperimentalVersions(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.EXPERIMENTAL_VERSIONS_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.EXPERIMENTAL_VERSIONS_PROP));
+        return Constants.Mirrors.EXPERIMENTAL_VERSIONS;
+    }
 
-	public static String getUnifyCraftRepository(ExtensionAware aware) {
-		if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP))
-			return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP));
-		return Constants.Mirrors.UNIFYCRAFT_REPOSITORY;
-	}
+    public static String getFabricRepository(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.FABRIC_REPOSITORY_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.FABRIC_REPOSITORY_PROP));
+        return Constants.Mirrors.FABRIC_REPOSITORY;
+    }
+
+    public static String getUnifyCraftRepository(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP));
+        return Constants.Mirrors.UNIFYCRAFT_REPOSITORY;
+    }
 }

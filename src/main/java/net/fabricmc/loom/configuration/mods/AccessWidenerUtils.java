@@ -58,14 +58,14 @@ public class AccessWidenerUtils {
 	}
 
 	public static AccessWidenerData readAccessWidenerData(Path inputJar) throws IOException {
-		byte[] modJsonBytes = ZipUtils.unpack(inputJar, "fabric.mod.json");
+		byte[] modJsonBytes = ZipUtils.unpack(inputJar, "mod.metadata.json");
 		JsonObject jsonObject = LoomGradlePlugin.GSON.fromJson(new String(modJsonBytes, StandardCharsets.UTF_8), JsonObject.class);
 
-		if (!jsonObject.has("accessWidener")) {
+		if (!jsonObject.has("loader") || !jsonObject.getAsJsonObject("loader").has("access_widener")) {
 			return null;
 		}
 
-		String accessWidenerPath = jsonObject.get("accessWidener").getAsString();
+		String accessWidenerPath = jsonObject.getAsJsonObject("loader").get("access_widener").getAsString();
 		byte[] accessWidener = ZipUtils.unpack(inputJar, accessWidenerPath);
 		AccessWidenerReader.Header header = AccessWidenerReader.readHeader(accessWidener);
 

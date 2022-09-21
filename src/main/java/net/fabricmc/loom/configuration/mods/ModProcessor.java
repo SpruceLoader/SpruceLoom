@@ -82,12 +82,12 @@ public class ModProcessor {
 	private void stripNestedJars(Path path) {
 		// Strip out all contained jar info as we dont want loader to try and load the jars contained in dev.
 		try {
-			ZipUtils.transformJson(JsonObject.class, path, Map.of("fabric.mod.json", json -> {
+			ZipUtils.transformJson(JsonObject.class, path, Map.of("mod.metadata.json", json -> {
 				json.remove("jars");
 				return json;
 			}));
 		} catch (IOException e) {
-			throw new UncheckedIOException("Failed to strip nested jars from %s".formatted(path), e);
+			throw new UncheckedIOException("Failed to strip nested JARs from %s".formatted(path), e);
 		}
 	}
 

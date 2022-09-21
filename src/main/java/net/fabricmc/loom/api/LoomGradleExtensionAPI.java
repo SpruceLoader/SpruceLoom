@@ -126,10 +126,10 @@ public interface LoomGradleExtensionAPI {
 	void disableDeprecatedPomGeneration(MavenPublication publication);
 
 	/**
-	 * Reads the mod version from the fabric.mod.json file located in the main sourcesets resources.
-	 * This is useful if you want to set the gradle version based of the version in the fabric.mod.json file.
+	 * Reads the mod version from the mod.metadata.json file located in the main sourcesets resources.
+	 * This is useful if you want to set the gradle version based of the version in the mod.metadata.json file.
 	 *
-	 * @return the version defined in the fabric.mod.json
+	 * @return the version defined in the mod.metadata.json
 	 */
 	String getModVersion();
 

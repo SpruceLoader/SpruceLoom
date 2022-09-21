@@ -53,7 +53,7 @@ public class OperatingSystem {
 	}
 
 	public static boolean isCIBuild() {
-		String loomProperty = System.getProperty("fabric.loom.ci");
+		String loomProperty = System.getProperty("uniloom.ci");
 
 		if (loomProperty != null) {
 			return loomProperty.equalsIgnoreCase("true");

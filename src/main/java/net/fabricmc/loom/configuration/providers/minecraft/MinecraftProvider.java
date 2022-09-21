@@ -161,7 +161,7 @@ public abstract class MinecraftProvider {
 		download.downloadPath(minecraftJson.toPath());
 	}
 
-	// This attempts to find the version from fabric's own fallback version manifest json.
+	// This attempts to find the version from Fabric's own fallback version manifest json.
 	private ManifestVersion.Versions findExperimentalVersion() throws IOException {
 		final String expVersionManifest = getExtension().download(MirrorUtil.getExperimentalVersions(getProject()))
 				.defaultCache()

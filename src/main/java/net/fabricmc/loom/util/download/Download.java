@@ -270,7 +270,7 @@ public class Download {
 				return false;
 			}
 
-			if (System.getProperty("fabric.loom.test") != null) {
+			if (System.getProperty("uniloom.test") != null) {
 				// This should never happen in an ideal world.
 				// It means that something has altered a file that should be cached.
 				throw error("Download file (%s) may have been modified", output);

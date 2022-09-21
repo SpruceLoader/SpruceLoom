@@ -163,7 +163,7 @@ public final class IncludedJarFactory {
 
 		try {
 			FileUtils.copyFile(input, tempFile);
-			ZipUtils.add(tempFile.toPath(), "fabric.mod.json", generateModForDependency(metadata).getBytes(StandardCharsets.UTF_8));
+			ZipUtils.add(tempFile.toPath(), "mod.metadata.json", generateModForDependency(metadata).getBytes(StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			throw new UncheckedIOException("Failed to add dummy mod while including %s".formatted(input), e);
 		}
@@ -177,7 +177,7 @@ public final class IncludedJarFactory {
 				.replaceAll("\\.", "_")
 				.toLowerCase(Locale.ENGLISH);
 
-		// Fabric Loader can't handle modIds longer than 64 characters
+		// The loader can't/won't handle mod IDs longer than 64 characters
 		if (modId.length() > 64) {
 			String hash = Hashing.sha256()
 					.hashString(modId, StandardCharsets.UTF_8)
@@ -193,7 +193,7 @@ public final class IncludedJarFactory {
 		jsonObject.addProperty("name", metadata.name());
 
 		JsonObject custom = new JsonObject();
-		custom.addProperty("fabric-loom:generated", true);
+		custom.addProperty("uniloom:generated", true);
 		jsonObject.add("custom", custom);
 
 		return LoomGradlePlugin.GSON.toJson(jsonObject);

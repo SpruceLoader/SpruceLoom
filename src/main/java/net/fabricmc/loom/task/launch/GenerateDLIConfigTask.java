@@ -56,7 +56,7 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 
 		final LaunchConfig launchConfig = new LaunchConfig()
 				.property("launch.development", "true")
-				.property("fabric.remapClasspathFile", getExtension().getFiles().getRemapClasspathFile().getAbsolutePath())
+				.property("loader.remapClasspathFile", getExtension().getFiles().getRemapClasspathFile().getAbsolutePath())
 				.property("log4j.configurationFile", getAllLog4JConfigFiles())
 				.property("log4j2.formatMsgNoLookups", "true")
 
@@ -74,12 +74,12 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 		}
 
 		if (getExtension().areEnvironmentSourceSetsSplit()) {
-			launchConfig.property("client", "fabric.gameJarPath.client", getGameJarPath("client"));
-			launchConfig.property("fabric.gameJarPath", getGameJarPath("common"));
+			launchConfig.property("client", "uniloader.gameJarPath.client", getGameJarPath("client"));
+			launchConfig.property("loader.gameJarPath", getGameJarPath("common"));
 		}
 
 		if (!getExtension().getMods().isEmpty()) {
-			launchConfig.property("fabric.classPathGroups", getClassPathGroups());
+			launchConfig.property("loader.classPathGroups", getClassPathGroups());
 		}
 
 		final boolean plainConsole = getProject().getGradle().getStartParameter().getConsoleOutput() == ConsoleOutput.Plain;
@@ -89,7 +89,7 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 
 		//Enable ansi by default for idea and vscode when gradle is not ran with plain console.
 		if (ansiSupportedIDE && !plainConsole) {
-			launchConfig.property("fabric.log.disableAnsi", "false");
+			launchConfig.property("uniloader.log.disableAnsi", "false");
 		}
 
 		FileUtils.writeStringToFile(getExtension().getFiles().getDevLauncherConfig(), launchConfig.asString(), StandardCharsets.UTF_8);

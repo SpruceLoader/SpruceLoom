@@ -54,11 +54,11 @@ public class ModVersionParser {
 		try (var reader = new FileReader(json)) {
 			jsonObject = LoomGradlePlugin.GSON.fromJson(reader, JsonObject.class);
 		} catch (IOException e) {
-			throw new RuntimeException("Failed to read fabric.mod.json file");
+			throw new RuntimeException("Failed to read mod.metadata.json file");
 		}
 
 		if (!jsonObject.has("version") || !jsonObject.get("version").isJsonPrimitive()) {
-			throw new UnsupportedOperationException("Could not find valid version in the fabric.mod.json file");
+			throw new UnsupportedOperationException("Could not find valid version in the mod.metadata.json file");
 		}
 
 		version = jsonObject.get("version").getAsString();
@@ -70,7 +70,7 @@ public class ModVersionParser {
 		return project.getExtensions().getByType(JavaPluginExtension.class).getSourceSets()
 				.getByName("main")
 				.getResources()
-				.matching(patternFilterable -> patternFilterable.include("fabric.mod.json"))
+				.matching(patternFilterable -> patternFilterable.include("mod.metadata.json"))
 				.getSingleFile();
 	}
 }

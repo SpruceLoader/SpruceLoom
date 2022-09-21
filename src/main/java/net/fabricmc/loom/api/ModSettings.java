@@ -43,7 +43,7 @@ import net.fabricmc.loom.util.gradle.SourceSetReference;
  */
 public abstract class ModSettings implements Named {
 	/**
-	 * List of classpath directories, or jar files used to populate the `fabric.classPathGroups` Fabric Loader system property.
+	 * List of classpath directories, or jar files used to populate the `loader.classPathGroups` mod loader system property.
 	 */
 	public abstract ConfigurableFileCollection getModFiles();
 
@@ -96,7 +96,7 @@ public abstract class ModSettings implements Named {
 	}
 
 	/**
-	 * List of classpath directories, used to populate the `fabric.classPathGroups` Fabric Loader system property.
+	 * List of classpath directories, used to populate the `loader.classPathGroups` mod loader system property.
 	 * Use the {@link ModSettings#sourceSet} methods to add to this.
 	 */
 	@ApiStatus.Internal

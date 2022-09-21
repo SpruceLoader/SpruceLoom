@@ -63,6 +63,10 @@ public class LoomRepositoryPlugin implements Plugin<PluginAware> {
 			repo.setName("UserLocalRemappedMods");
 			repo.setUrl(files.getRemappedModCache());
 		});
+        repositories.maven(repo -> {
+            repo.setName("Fabric");
+            repo.setUrl(MirrorUtil.getFabricRepository(target));
+        });
 		repositories.maven(repo -> {
 			repo.setName("UnifyCraft");
 			repo.setUrl(MirrorUtil.getUnifyCraftRepository(target));

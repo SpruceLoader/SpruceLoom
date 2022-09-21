@@ -49,7 +49,7 @@ public class JarNester {
 			return;
 		}
 
-		Preconditions.checkArgument(ModUtils.isMod(modJar), "Cannot nest jars into none mod jar " + modJar.getName());
+		Preconditions.checkArgument(ModUtils.isMod(modJar), "Cannot nest jars into none mod JAR " + modJar.getName());
 
 		try {
 			ZipUtils.add(modJar.toPath(), jars.stream().map(file -> {
@@ -60,7 +60,7 @@ public class JarNester {
 				}
 			}).collect(Collectors.toList()));
 
-			int count = ZipUtils.transformJson(JsonObject.class, modJar.toPath(), Stream.of(new Pair<>("fabric.mod.json", json -> {
+			int count = ZipUtils.transformJson(JsonObject.class, modJar.toPath(), Stream.of(new Pair<>("mod.metadata.json", json -> {
 				JsonArray nestedJars = json.getAsJsonArray("jars");
 
 				if (nestedJars == null || !json.has("jars")) {
@@ -69,13 +69,13 @@ public class JarNester {
 
 				for (File file : jars) {
 					String nestedJarPath = "META-INF/jars/" + file.getName();
-					Preconditions.checkArgument(ModUtils.isMod(file), "Cannot nest none mod jar: " + file.getName());
+					Preconditions.checkArgument(ModUtils.isMod(file), "Cannot nest none mod JAR: " + file.getName());
 
 					for (JsonElement nestedJar : nestedJars) {
 						JsonObject jsonObject = nestedJar.getAsJsonObject();
 
 						if (jsonObject.has("file") && jsonObject.get("file").getAsString().equals(nestedJarPath)) {
-							throw new IllegalStateException("Cannot nest 2 jars at the same path: " + nestedJarPath);
+							throw new IllegalStateException("Cannot nest 2 JARs at the same path: " + nestedJarPath);
 						}
 					}
 
@@ -91,9 +91,9 @@ public class JarNester {
 				return json;
 			})));
 
-			Preconditions.checkState(count > 0, "Failed to transform fabric.mod.json");
+			Preconditions.checkState(count > 0, "Failed to transform mod.metadata.json");
 		} catch (IOException e) {
-			throw new java.io.UncheckedIOException("Failed to nest jars into " + modJar.getName(), e);
+			throw new java.io.UncheckedIOException("Failed to nest JARs into " + modJar.getName(), e);
 		}
 	}
 }

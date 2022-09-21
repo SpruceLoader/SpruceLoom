@@ -25,7 +25,7 @@ public class LoomGradlePluginBootstrap implements Plugin<PluginAware> {
 		if (pluginAware instanceof Project) {
 			Project project = (Project) pluginAware;
 
-			if (project.findProperty("fabric.loom.skip-env-validation") == null) {
+			if (project.findProperty("uniloader.loom.skip-env-validation") == null) {
 				validateEnvironment();
 			} else {
 				project.getLogger().lifecycle("Loom environment validation disabled. Please re-enable before reporting any issues.");

@@ -44,12 +44,14 @@ public class Constants {
         public static final String RESOURCES_BASE_PROP = "loom.resources_base";
         public static final String VERSION_MANIFESTS_PROP = "loom.version_manifests";
         public static final String EXPERIMENTAL_VERSIONS_PROP = "loom.experimental_versions";
+        public static final String FABRIC_REPOSITORY_PROP = "loom.fabric_repository";
         public static final String UNIFYCRAFT_REPOSITORY_PROP = "loom.unifycraft_repository";
 
         public static final String LIBRARIES_BASE = "https://libraries.minecraft.net/";
         public static final String RESOURCES_BASE = "https://resources.download.minecraft.net/";
         public static final String VERSION_MANIFESTS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
         public static final String EXPERIMENTAL_VERSIONS = "https://maven.fabricmc.net/net/minecraft/experimental_versions.json";
+        public static final String FABRIC_REPOSITORY = "https://maven.fabricmc.net/";
         public static final String UNIFYCRAFT_REPOSITORY = "https://maven.unifycraft.xyz/releases/";
     }
 

@@ -96,19 +96,19 @@ public class FileDependencyInfo extends DependencyInfo {
 			version = dependency.getVersion();
 		} else {
 			group = "net.fabricmc.synthetic";
-			File root = classifierToFile.get(""); //We've built the classifierToFile map, now to try find a name and version for our dependency
+			File root = classifierToFile.get(""); // We've built the classifierToFile map, now to try find a name and version for our dependency
 			byte[] modJson;
 
 			try {
-				if ("jar".equals(FilenameUtils.getExtension(root.getName())) && (modJson = ZipUtils.unpackNullable(root.toPath(), "fabric.mod.json")) != null) {
-					//It's a Fabric mod, see how much we can extract out
+				if ("jar".equals(FilenameUtils.getExtension(root.getName())) && (modJson = ZipUtils.unpackNullable(root.toPath(), "mod.metadata.json")) != null) {
+					//It's a mod, see how much we can extract out
 					JsonObject json = new Gson().fromJson(new String(modJson, StandardCharsets.UTF_8), JsonObject.class);
 
 					if (json == null || !json.has("id") || !json.has("version")) {
-						throw new IllegalArgumentException("Invalid Fabric mod jar: " + root + " (malformed json: " + json + ')');
+						throw new IllegalArgumentException("Invalid mod JAR: " + root + " (malformed json: " + json + ')');
 					}
 
-					if (json.has("name")) { //Go for the name field if it's got one
+					if (json.has("name")) { // Go for the name field if it's got one
 						name = json.get("name").getAsString();
 					} else {
 						name = json.get("id").getAsString();
@@ -116,7 +116,7 @@ public class FileDependencyInfo extends DependencyInfo {
 
 					version = json.get("version").getAsString();
 				} else {
-					//Not a Fabric mod, just have to make something up
+					// Not a mod, just have to make something up
 					name = FilenameUtils.removeExtension(root.getName());
 					version = "1.0";
 				}
@@ -133,7 +133,7 @@ public class FileDependencyInfo extends DependencyInfo {
 
 	@Override
 	public String getDepString() {
-		//Use our custom name and version with the dummy group rather than the null:unspecified:null it would otherwise return
+		// Use our custom name and version with the dummy group rather than the null:unspecified:null it would otherwise return
 		return group + ':' + name + ':' + version;
 	}
 
