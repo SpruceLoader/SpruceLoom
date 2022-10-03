@@ -70,7 +70,7 @@ public class LoomDependencyManager {
 
 					if (jsonObject != null) {
 						if (extension.getInstallerData() != null) {
-							project.getLogger().info("Found another installer JSON in, ignoring it! " + input);
+							project.getLogger().info("Found another installer JSON, ignoring it! " + input);
 							continue;
 						}
 

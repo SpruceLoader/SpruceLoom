@@ -61,7 +61,7 @@ public class RemapTaskConfiguration {
 			// Basic task setup
 			task.dependsOn(jarTask);
 			task.setDescription("Remaps the built project JAR to intermediary mappings.");
-			task.setGroup(Constants.TaskGroup.UNILOADER);
+			task.setGroup(Constants.TaskGroup.UNILOOM);
 			project.getArtifacts().add(JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME, task);
 			project.getArtifacts().add(JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME, task);
 
@@ -105,7 +105,7 @@ public class RemapTaskConfiguration {
 
 		TaskProvider<RemapSourcesJarTask> remapSourcesTask = tasks.register(REMAP_SOURCES_JAR_TASK_NAME, RemapSourcesJarTask.class, task -> {
 			task.setDescription("Remaps the default sources jar to intermediary mappings.");
-			task.setGroup(Constants.TaskGroup.UNILOADER);
+			task.setGroup(Constants.TaskGroup.UNILOOM);
 
 			final Task sourcesTask = project.getTasks().findByName(sourcesJarTaskName);
 

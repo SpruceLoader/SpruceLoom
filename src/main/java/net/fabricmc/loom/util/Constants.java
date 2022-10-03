@@ -133,8 +133,8 @@ public class Constants {
 	}
 
 	public static final class Launch {
-		public static final String MAIN_CLIENT = "xyz.unifycraft.unilaunchwrapper.MainClient";
-		public static final String MAIN_SERVER = "xyz.unifycraft.unilaunchwrapper.MainServer";
+		public static final String MAIN_CLIENT = "xyz.unifycraft.launchwrapper.MainClient";
+		public static final String MAIN_SERVER = "xyz.unifycraft.launchwrapper.MainServer";
 
         public static final String LAUNCH_LISTENER = "xyz.unifycraft.uniloader.loader.impl.LoaderLaunchTransformer";
 
@@ -143,7 +143,7 @@ public class Constants {
 	}
 
 	public static final class TaskGroup {
-		public static final String UNILOADER = "uniloom";
+		public static final String UNILOOM = "uniloom";
 		public static final String IDE = "ide";
 
 		private TaskGroup() {

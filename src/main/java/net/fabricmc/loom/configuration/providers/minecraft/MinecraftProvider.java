@@ -233,20 +233,20 @@ public abstract class MinecraftProvider {
 	}
 
 	public File getMinecraftClientJar() {
-		Preconditions.checkArgument(provideClient(), "Not configured to provide client jar");
+		Preconditions.checkArgument(provideClient(), "Not configured to provide client JAR");
 		return minecraftClientJar;
 	}
 
 	// May be null on older versions
 	@Nullable
 	public File getMinecraftExtractedServerJar() {
-		Preconditions.checkArgument(provideServer(), "Not configured to provide server jar");
+		Preconditions.checkArgument(provideServer(), "Not configured to provide server JAR");
 		return minecraftExtractedServerJar;
 	}
 
 	// This may be the server bundler jar on newer versions prob not what you want.
 	public File getMinecraftServerJar() {
-		Preconditions.checkArgument(provideServer(), "Not configured to provide server jar");
+		Preconditions.checkArgument(provideServer(), "Not configured to provide server JAR");
 		return minecraftServerJar;
 	}
 

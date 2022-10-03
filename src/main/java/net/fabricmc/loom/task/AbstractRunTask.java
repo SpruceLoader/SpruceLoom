@@ -52,7 +52,7 @@ public abstract class AbstractRunTask extends JavaExec {
 
 	public AbstractRunTask(Function<Project, RunConfig> configProvider) {
 		super();
-		setGroup(Constants.TaskGroup.UNILOADER);
+		setGroup(Constants.TaskGroup.UNILOOM);
 		this.config = configProvider.apply(getProject());
 
 		setClasspath(config.sourceSet.getRuntimeClasspath().filter(File::exists).filter(new LibraryFilter()));

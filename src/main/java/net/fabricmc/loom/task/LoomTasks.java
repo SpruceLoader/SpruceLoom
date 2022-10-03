@@ -74,7 +74,7 @@ public final class LoomTasks {
 			task.dependsOn(tasks.named("generateRemapClasspath"));
 
 			task.setDescription("Setup the required files to launch Minecraft");
-			task.setGroup(Constants.TaskGroup.UNILOADER);
+			task.setGroup(Constants.TaskGroup.UNILOOM);
 		});
 
 		TaskProvider<ValidateAccessWidenerTask> validateAccessWidener = tasks.register("validateAccessWidener", ValidateAccessWidenerTask.class, t -> {
@@ -186,7 +186,7 @@ public final class LoomTasks {
 			}
 
 			task.setDescription("Setup the required files to launch the Minecraft client");
-			task.setGroup(Constants.TaskGroup.UNILOADER);
+			task.setGroup(Constants.TaskGroup.UNILOOM);
 		});
 	}
 
