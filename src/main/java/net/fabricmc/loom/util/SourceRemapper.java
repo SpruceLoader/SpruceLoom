@@ -122,7 +122,7 @@ public class SourceRemapper {
 		if (!source.isDirectory()) {
 			// Create tmp directory.
 			isSrcTmp = true;
-			srcPath = Files.createTempDirectory("uniloom-src");
+			srcPath = Files.createTempDirectory("spruce-loom-src");
 			ZipUtils.unpackAll(source.toPath(), srcPath);
 		}
 

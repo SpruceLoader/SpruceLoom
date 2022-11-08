@@ -69,7 +69,7 @@ public final class RunConfigSettings implements Named {
 	/**
 	 * The default main class of the run configuration.
 	 *
-	 * <p>This can be overwritten in {@code uniloader_installer.[method].json}. Note that this <em>doesn't</em> take
+	 * <p>This can be overwritten in {@code spruceloader_installer.[method].json}. Note that this <em>doesn't</em> take
 	 * priority over the main class specified in the mod loader installer configuration.
 	 */
 	private String defaultMainClass;
@@ -113,7 +113,6 @@ public final class RunConfigSettings implements Named {
 		});
 
 		runDir("run");
-        programArg("--launchListener " + Constants.Launch.LAUNCH_LISTENER);
 	}
 
 	public Project getProject() {

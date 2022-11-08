@@ -49,7 +49,7 @@ public class RemapTaskConfiguration {
 		final TaskContainer tasks = project.getTasks();
 		final LoomGradleExtension extension = LoomGradleExtension.get(project);
 
-		if (getBooleanProperty(project, "uniloom.dontRemap")) {
+		if (getBooleanProperty(project, "spruce.loom.dontRemap")) {
 			extension.getUnmappedModCollection().from(project.getTasks().getByName(JavaPlugin.JAR_TASK_NAME));
 			return;
 		}
@@ -61,7 +61,7 @@ public class RemapTaskConfiguration {
 			// Basic task setup
 			task.dependsOn(jarTask);
 			task.setDescription("Remaps the built project JAR to intermediary mappings.");
-			task.setGroup(Constants.TaskGroup.UNILOOM);
+			task.setGroup(Constants.TaskGroup.SPRUCE);
 			project.getArtifacts().add(JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME, task);
 			project.getArtifacts().add(JavaPlugin.RUNTIME_ELEMENTS_CONFIGURATION_NAME, task);
 
@@ -81,7 +81,7 @@ public class RemapTaskConfiguration {
 
 		trySetupSourceRemapping(project);
 
-		if (getBooleanProperty(project, "uniloom.disableRemappedVariants")) {
+		if (getBooleanProperty(project, "spruce.loom.disableRemappedVariants")) {
 			return;
 		}
 
@@ -105,7 +105,7 @@ public class RemapTaskConfiguration {
 
 		TaskProvider<RemapSourcesJarTask> remapSourcesTask = tasks.register(REMAP_SOURCES_JAR_TASK_NAME, RemapSourcesJarTask.class, task -> {
 			task.setDescription("Remaps the default sources jar to intermediary mappings.");
-			task.setGroup(Constants.TaskGroup.UNILOOM);
+			task.setGroup(Constants.TaskGroup.SPRUCE);
 
 			final Task sourcesTask = project.getTasks().findByName(sourcesJarTaskName);
 
@@ -132,7 +132,7 @@ public class RemapTaskConfiguration {
 
 		tasks.named(BasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(remapSourcesTask));
 
-		if (getBooleanProperty(project, "uniloom.disableRemappedVariants")) {
+		if (getBooleanProperty(project, "spruce.loom.disableRemappedVariants")) {
 			return;
 		}
 

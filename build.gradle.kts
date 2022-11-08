@@ -25,7 +25,8 @@ apply(from = "gradle/groovy.gradle")
 
 repositories {
     maven("https://maven.fabricmc.net/")
-    maven("https://maven.unifycraft.xyz/releases/")
+    maven("https://maven.spruceloader.xyz/releases/")
+    maven("https://maven.enhancedpixel.xyz/releases/")
     mavenCentral()
 }
 
@@ -59,7 +60,7 @@ dependencies {
     implementation("com.github.mizosoft.methanol:methanol:1.7.0")
 
     // game handling utils
-    implementation("xyz.unifycraft:stitch:1.0.0") {
+    implementation("xyz.spruceloader:stitch:1.1.0") {
         exclude(module = "enigma")
     }
 
@@ -115,17 +116,6 @@ java {
 }
 
 tasks {
-    listOf(
-        "Release",
-        "Snapshots"
-    ).forEach { branch ->
-        register("publishPluginTo$branch") {
-            group = "uniloom"
-            dependsOn("publishUniloomPluginMarkerMavenPublicationToUnifyCraft${branch}Repository")
-            dependsOn("publishPluginMavenPublicationToUnifyCraft${branch}Repository")
-        }
-    }
-
     jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -256,8 +246,8 @@ codenarc {
 
 gradlePlugin {
     plugins {
-        create("uniloom") {
-            id = "xyz.unifycraft.uniloom"
+        create("spruce-loom") {
+            id = "xyz.spruceloader.loom"
             implementationClass = "net.fabricmc.loom.bootstrap.LoomGradlePluginBootstrap"
         }
     }
@@ -275,24 +265,24 @@ publishing {
     }
 
     repositories {
-        if (project.hasProperty("unifycraft.publishing.username") && project.hasProperty("unifycraft.publishing.password")) {
+        if (project.hasProperty("spruceloader.publishing.username") && project.hasProperty("spruceloader.publishing.password")) {
             fun MavenArtifactRepository.applyCredentials() {
-                credentials {
-                    username = property("unifycraft.publishing.username")?.toString()
-                    password = property("unifycraft.publishing.password")?.toString()
-                }
                 authentication.create<BasicAuthentication>("basic")
+                credentials {
+                    username = property("spruceloader.publishing.username")?.toString()
+                    password = property("spruceloader.publishing.password")?.toString()
+                }
             }
 
             maven {
-                name = "UnifyCraftRelease"
-                url = uri("https://maven.unifycraft.xyz/releases")
+                name = "SpruceLoaderReleases"
+                url = uri("https://maven.spruceloader.xyz/releases")
                 applyCredentials()
             }
 
             maven {
-                name = "UnifyCraftSnapshots"
-                url = uri("https://maven.unifycraft.xyz/snapshots")
+                name = "SpruceLoaderSnapshots"
+                url = uri("https://maven.spruceloader.xyz/snapshots")
                 applyCredentials()
             }
         }

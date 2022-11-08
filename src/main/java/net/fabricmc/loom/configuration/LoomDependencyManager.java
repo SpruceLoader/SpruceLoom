@@ -66,7 +66,7 @@ public class LoomDependencyManager {
 
 			for (Dependency dependency : configuration.getAllDependencies()) {
 				for (File input : configuration.files(dependency)) {
-					JsonObject jsonObject = readInstallerJson(true, input, "uniloader-installer.json");
+					JsonObject jsonObject = readInstallerJson(true, input, "spruceloader-installer.json");
 
 					if (jsonObject != null) {
 						if (extension.getInstallerData() != null) {
@@ -90,7 +90,7 @@ public class LoomDependencyManager {
 		sourceRemapper.remapAll();
 
 		if (extension.getInstallerData() == null)
-			project.getLogger().warn("UniLoader installer data not found in classpath!");
+			project.getLogger().warn("SpruceLoader installer data not found in classpath!");
 
 		for (Runnable runnable : afterTasks)
 			runnable.run();

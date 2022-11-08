@@ -45,14 +45,14 @@ public class Constants {
         public static final String VERSION_MANIFESTS_PROP = "loom.version_manifests";
         public static final String EXPERIMENTAL_VERSIONS_PROP = "loom.experimental_versions";
         public static final String FABRIC_REPOSITORY_PROP = "loom.fabric_repository";
-        public static final String UNIFYCRAFT_REPOSITORY_PROP = "loom.unifycraft_repository";
+        public static final String SPRUCELOADER_REPOSITORY_PROP = "loom.spruce_repository";
 
         public static final String LIBRARIES_BASE = "https://libraries.minecraft.net/";
         public static final String RESOURCES_BASE = "https://resources.download.minecraft.net/";
         public static final String VERSION_MANIFESTS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
         public static final String EXPERIMENTAL_VERSIONS = "https://maven.fabricmc.net/net/minecraft/experimental_versions.json";
         public static final String FABRIC_REPOSITORY = "https://maven.fabricmc.net/";
-        public static final String UNIFYCRAFT_REPOSITORY = "https://maven.unifycraft.xyz/releases/";
+        public static final String SPRUCELOADER_REPOSITORY = "https://maven.spruceloader.xyz/releases/";
     }
 
 	/**
@@ -97,7 +97,7 @@ public class Constants {
 	 */
 	public static final class Dependencies {
 		public static final String MIXIN_COMPILE_EXTENSIONS = "net.fabricmc:fabric-mixin-compile-extensions:";
-		public static final String DEV_LAUNCH_INJECTOR = "net.fabricmc:dev-launch-injector:";
+		public static final String DEV_LAUNCH_INJECTOR = "xyz.spruceloader:dev-launch-injector:";
 		public static final String TERMINAL_CONSOLE_APPENDER = "net.minecrell:terminalconsoleappender:";
 		public static final String JETBRAINS_ANNOTATIONS = "org.jetbrains:annotations:";
 		public static final String NATIVE_SUPPORT = "net.fabricmc:fabric-loom-native-support:";
@@ -110,7 +110,7 @@ public class Constants {
 		 */
 		public static final class Versions {
 			public static final String MIXIN_COMPILE_EXTENSIONS = "0.5.0";
-			public static final String DEV_LAUNCH_INJECTOR = "0.2.1+build.8";
+			public static final String DEV_LAUNCH_INJECTOR = "1.0.0";
 			public static final String TERMINAL_CONSOLE_APPENDER = "1.2.0";
 			public static final String JETBRAINS_ANNOTATIONS = "23.0.0";
 			public static final String NATIVE_SUPPORT_VERSION = "1.0.1";
@@ -133,17 +133,17 @@ public class Constants {
 	}
 
 	public static final class Launch {
-		public static final String MAIN_CLIENT = "xyz.unifycraft.launchwrapper.MainClient";
-		public static final String MAIN_SERVER = "xyz.unifycraft.launchwrapper.MainServer";
+		public static final String MAIN_CLIENT = "xyz.spruceloader.launchwrapper.MainClient";
+		public static final String MAIN_SERVER = "xyz.spruceloader.launchwrapper.MainServer";
 
-        public static final String LAUNCH_LISTENER = "xyz.unifycraft.uniloader.loader.impl.LoaderLaunchTransformer";
+        public static final String LAUNCH_LISTENER = "xyz.spruceloader.loader.impl.LoaderLaunchTransformer";
 
 		private Launch() {
 		}
 	}
 
 	public static final class TaskGroup {
-		public static final String UNILOOM = "uniloom";
+		public static final String SPRUCE = "spruce";
 		public static final String IDE = "ide";
 
 		private TaskGroup() {

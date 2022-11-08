@@ -78,7 +78,7 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
         if (project.getExtensions().getExtraProperties().has(Constants.DEBUG_PROP))
             debug = Boolean.parseBoolean(String.valueOf(project.getExtensions().getExtraProperties().get(Constants.DEBUG_PROP)));
 
-		project.getLogger().lifecycle("UniLoom: " + LOOM_VERSION);
+		project.getLogger().lifecycle("SpruceLoom: " + LOOM_VERSION);
 		LibraryLocationLogger.logLibraryVersions();
 
 		// Apply default plugins

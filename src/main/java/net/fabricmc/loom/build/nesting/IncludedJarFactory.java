@@ -193,7 +193,7 @@ public final class IncludedJarFactory {
 		jsonObject.addProperty("name", metadata.name());
 
 		JsonObject custom = new JsonObject();
-		custom.addProperty("uniloom:generated", true);
+		custom.addProperty("spruceloom:generated", true);
 		jsonObject.add("custom", custom);
 
 		return LoomGradlePlugin.GSON.toJson(jsonObject);

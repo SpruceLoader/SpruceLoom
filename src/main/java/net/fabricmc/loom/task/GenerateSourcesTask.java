@@ -135,7 +135,7 @@ public abstract class GenerateSourcesTask extends AbstractLoomTask {
 		}
 
 		// Set up the IPC path to get the log output back from the forked JVM
-		final Path ipcPath = Files.createTempFile("loom", "ipc");
+		final Path ipcPath = Files.createTempFile("spruce.loom", "ipc");
 		Files.deleteIfExists(ipcPath);
 
 		try (ThreadedProgressLoggerConsumer loggerConsumer = new ThreadedProgressLoggerConsumer(getProject(), decompilerOptions.getName(), "Decompiling minecraft sources");
@@ -200,7 +200,7 @@ public abstract class GenerateSourcesTask extends AbstractLoomTask {
 
 	private boolean useProcessIsolation() {
 		// Useful if you want to debug the decompiler, make sure you run gradle with enough memory.
-		return !Boolean.getBoolean("uniloom.genSources.debug");
+		return !Boolean.getBoolean("spruce.loom.genSources.debug");
 	}
 
 	public interface DecompileParams extends WorkParameters {

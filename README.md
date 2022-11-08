@@ -1,8 +1,8 @@
 <div align="center">
 
-# [`UniLoom`]
+# [`SpruceLoom`]
 A fork of Fabric Loom built for use
-in the [UniLoader][uniloader] ecosystem.
+in the [Spruce Loader][spruce] ecosystem.
 
 </div>
 
@@ -10,8 +10,8 @@ in the [UniLoader][uniloader] ecosystem.
 Loom depends on some internal Fabric classes, methods and
 files which obviously break in non-Fabric environments
 where those classes aren't present. We needed to fork the
-project so we could adapt it for use with [UniLoader][uniloader]
-and [UniLaunchwrapper][launchwrapper].
+project so we could adapt it for use with [Spruce Loader][spruce]
+and [SpruceLaunchwrapper][launchwrapper].
 
-[uniloader]: https://github.com/UnifyCraft/UniLoader
-[launchwrapper]: https://github.com/UnifyCraft/UniLaunchwrapper
+[spruce]: https://spruceloader.xyz/
+[launchwrapper]: https://github.com/SpruceLoader/SpruceLaunchwrapper

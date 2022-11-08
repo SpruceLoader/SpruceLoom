@@ -50,7 +50,7 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 		Property<String> getMCEVersion();
 		Property<String> getMinecraftVersion();
 		Property<String> getTinyRemapperVersion();
-		Property<String> getUniLoaderVersion();
+		Property<String> getSpruceLoaderVersion();
 		Property<MixinVersion> getMixinVersion();
 	}
 
@@ -65,7 +65,7 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 				params.getMCEVersion().set(Constants.Dependencies.Versions.MIXIN_COMPILE_EXTENSIONS);
 				params.getMinecraftVersion().set(extension.getMinecraftProvider().minecraftVersion());
 				params.getTinyRemapperVersion().set(tinyRemapperVersion.orElse("unknown"));
-				params.getUniLoaderVersion().set(getLoaderVersion(project).orElse("unknown"));
+				params.getSpruceLoaderVersion().set(getLoaderVersion(project).orElse("unknown"));
 				params.getMixinVersion().set(getMixinVersion(project).orElse(new MixinVersion("unknown", "unknown")));
 			});
 		});
@@ -84,7 +84,7 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 		attributes.putValue("UniLoom-Mixin-Compile-Extensions-Version", p.getMCEVersion().get());
 		attributes.putValue("UniLoom-Minecraft-Version", p.getMinecraftVersion().get());
 		attributes.putValue("UniLoom-Tiny-Remapper-Version", p.getTinyRemapperVersion().get());
-		attributes.putValue("UniLoom-Loader-Version", p.getUniLoaderVersion().get());
+		attributes.putValue("UniLoom-Loader-Version", p.getSpruceLoaderVersion().get());
 
 		// This can be overridden by mods if required
 		if (!attributes.containsKey("UniLoom-Mixin-Version")) {
@@ -100,7 +100,7 @@ public abstract class JarManifestService implements BuildService<JarManifestServ
 		LoomGradleExtension extension = LoomGradleExtension.get(project);
 
 		if (extension.getInstallerData() == null) {
-			project.getLogger().warn("Could not determine UniLoader version for Jar manifest...");
+			project.getLogger().warn("Could not determine SpruceLoader version for JAR manifest...");
 			return Optional.empty();
 		}
 

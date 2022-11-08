@@ -132,7 +132,7 @@ public abstract class MinecraftProvider {
 			customVersion.id = minecraftVersion;
 			customVersion.url = getExtension().getCustomMinecraftManifest().get();
 			version = customVersion;
-			getProject().getLogger().lifecycle("Using custom minecraft manifest");
+			getProject().getLogger().lifecycle("Using custom Minecraft manifest");
 		}
 
 		if (version == null) {
@@ -146,7 +146,7 @@ public abstract class MinecraftProvider {
 		}
 
 		if (version == null) {
-			throw new RuntimeException("Failed to find minecraft version: " + minecraftVersion);
+			throw new RuntimeException("Failed to find Minecraft version: " + minecraftVersion);
 		}
 
 		getProject().getLogger().debug("Downloading Minecraft {} manifest", minecraftVersion);
@@ -181,7 +181,7 @@ public abstract class MinecraftProvider {
 	}
 
 	private void downloadJars() throws IOException {
-		try (ProgressGroup progressGroup = new ProgressGroup(getProject(), "Download Minecraft jars");
+		try (ProgressGroup progressGroup = new ProgressGroup(getProject(), "Download Minecraft JARs");
 				DownloadExecutor executor = new DownloadExecutor(2)) {
 			if (provideClient()) {
 				final MinecraftVersionMeta.Download client = versionInfo.download("client");

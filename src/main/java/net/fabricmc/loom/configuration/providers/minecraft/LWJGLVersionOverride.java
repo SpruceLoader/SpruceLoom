@@ -80,7 +80,7 @@ public class LWJGLVersionOverride {
 	}
 
 	public static boolean forceOverride(Project project) {
-		return project.getProperties().get("uniloom.override-lwjgl") != null;
+		return project.getProperties().get("spruce.loom.override-lwjgl") != null;
 	}
 
 	public static void applyOverrides(Project project, boolean isMacOS) {

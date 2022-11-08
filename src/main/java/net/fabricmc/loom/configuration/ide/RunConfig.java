@@ -114,9 +114,10 @@ public class RunConfig {
 		runConfig.configName += extension.isRootProject() ? "" : " (" + project.getPath() + ")";
 		runConfig.eclipseProjectName = project.getExtensions().getByType(EclipseModel.class).getProject().getName();
 
-		runConfig.mainClass = "net.fabricmc.devlaunchinjector.Main";
+		runConfig.mainClass = "xyz.spruceloader.devlaunchinjector.Main";
 		runConfig.vmArgs.add("-loader.dli.config=" + encodeEscaped(extension.getFiles().getDevLauncherConfig().getAbsolutePath()));
 		runConfig.vmArgs.add("-loader.dli.env=" + environment.toLowerCase());
+        runConfig.programArgs.add("--launchListener" + Constants.Launch.LAUNCH_LISTENER);
 	}
 
 	// Turns camelCase/PascalCase into Capital Case

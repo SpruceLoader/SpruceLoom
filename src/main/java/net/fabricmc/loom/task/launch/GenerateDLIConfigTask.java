@@ -74,7 +74,7 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 		}
 
 		if (getExtension().areEnvironmentSourceSetsSplit()) {
-			launchConfig.property("client", "uniloader.gameJarPath.client", getGameJarPath("client"));
+			launchConfig.property("client", "spruceloader.gameJarPath.client", getGameJarPath("client"));
 			launchConfig.property("loader.gameJarPath", getGameJarPath("common"));
 		}
 
@@ -89,7 +89,7 @@ public abstract class GenerateDLIConfigTask extends AbstractLoomTask {
 
 		//Enable ansi by default for idea and vscode when gradle is not ran with plain console.
 		if (ansiSupportedIDE && !plainConsole) {
-			launchConfig.property("uniloader.log.disableAnsi", "false");
+			launchConfig.property("spruceloader.log.disableAnsi", "false");
 		}
 
 		FileUtils.writeStringToFile(getExtension().getFiles().getDevLauncherConfig(), launchConfig.asString(), StandardCharsets.UTF_8);

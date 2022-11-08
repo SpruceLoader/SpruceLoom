@@ -69,7 +69,7 @@ public class LoomRepositoryPlugin implements Plugin<PluginAware> {
         });
 		repositories.maven(repo -> {
 			repo.setName("UnifyCraft");
-			repo.setUrl(MirrorUtil.getUnifyCraftRepository(target));
+			repo.setUrl(MirrorUtil.getSpruceLoaderRepository(target));
 		});
 
 		MavenArtifactRepository mojangRepo = repositories.maven(repo -> {

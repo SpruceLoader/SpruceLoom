@@ -57,9 +57,9 @@ public class MirrorUtil {
         return Constants.Mirrors.FABRIC_REPOSITORY;
     }
 
-    public static String getUnifyCraftRepository(ExtensionAware aware) {
-        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP))
-            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.UNIFYCRAFT_REPOSITORY_PROP));
-        return Constants.Mirrors.UNIFYCRAFT_REPOSITORY;
+    public static String getSpruceLoaderRepository(ExtensionAware aware) {
+        if (aware.getExtensions().getExtraProperties().has(Constants.Mirrors.SPRUCELOADER_REPOSITORY_PROP))
+            return String.valueOf(aware.getExtensions().getExtraProperties().get(Constants.Mirrors.SPRUCELOADER_REPOSITORY_PROP));
+        return Constants.Mirrors.SPRUCELOADER_REPOSITORY;
     }
 }
