@@ -26,7 +26,6 @@ apply(from = "gradle/groovy.gradle")
 repositories {
     maven("https://maven.fabricmc.net/")
     maven("https://maven.spruceloader.xyz/releases/")
-    maven("https://maven.enhancedpixel.xyz/releases/")
     mavenCentral()
 }
 
@@ -60,7 +59,7 @@ dependencies {
     implementation("com.github.mizosoft.methanol:methanol:1.7.0")
 
     // game handling utils
-    implementation("xyz.spruceloader:stitch:1.1.0") {
+    implementation("net.fabricmc:stitch:0.6.2") {
         exclude(module = "enigma")
     }
 
