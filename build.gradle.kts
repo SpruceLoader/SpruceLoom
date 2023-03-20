@@ -20,7 +20,7 @@ plugins {
 group = extra["project.group"]?.toString() ?: throw MissingPropertyException("Project group is missing!")
 version = extra["project.version"]?.toString() ?: throw MissingPropertyException("Project version is missing!")
 
-val gitBranch = System.getenv("GITHUB_REF_NAME")
+var gitBranch = System.getenv("GITHUB_REF_NAME")
 val gitCommit = System.getenv("GITHUB_SHA")
 if (gitBranch != null && gitCommit != null) {
     val shortenedCommit = gitCommit.substring(0, 7)
