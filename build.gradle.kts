@@ -24,6 +24,7 @@ val gitBranch = System.getenv("GITHUB_REF_NAME")
 val gitCommit = System.getenv("GITHUB_SHA")
 if (gitBranch != null && gitCommit != null) {
     val shortenedCommit = gitCommit.substring(0, 7)
+    gitBranch = gitBranch.replace('/', '_')
     version = "$version-SNAPSHOT+$gitBranch-$shortenedCommit"
 }
 
