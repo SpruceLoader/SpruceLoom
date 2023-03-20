@@ -20,6 +20,13 @@ plugins {
 group = extra["project.group"]?.toString() ?: throw MissingPropertyException("Project group is missing!")
 version = extra["project.version"]?.toString() ?: throw MissingPropertyException("Project version is missing!")
 
+val gitBranch = System.getenv("GITHUB_REF_NAME")
+val gitCommit = System.getenv("GITHUB_SHA")
+if (gitBranch != null && gitCommit != null) {
+    val shortenedCommit = gitCommit.substring(0, 7)
+    version = "$version-SNAPSHOT+$gitBranch-$shortenedCommit"
+}
+
 // Apply additional things which aren't possible in the Kotlin DSL...
 apply(from = "gradle/groovy.gradle")
 
@@ -264,12 +271,14 @@ publishing {
     }
 
     repositories {
-        if (project.hasProperty("spruceloader.publishing.username") && project.hasProperty("spruceloader.publishing.password")) {
+        val publishingUsername = project.findProperty("spruceloader.publishing.username")?.toString() ?: System.getenv("SPRUCELOADER_PUBLISHING_USERNAME")
+        val publishingPassword = project.findProperty("spruceloader.publishing.password")?.toString() ?: System.getenv("SPRUCELOADER_PUBLISHING_PASSWORD")
+        if (publishingUsername != null && publishingPassword != null) {
             fun MavenArtifactRepository.applyCredentials() {
                 authentication.create<BasicAuthentication>("basic")
                 credentials {
-                    username = property("spruceloader.publishing.username")?.toString()
-                    password = property("spruceloader.publishing.password")?.toString()
+                    username = publishingUsername
+                    password = publishingPassword
                 }
             }
 
