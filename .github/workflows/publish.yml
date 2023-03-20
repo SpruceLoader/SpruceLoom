@@ -1,29 +1,22 @@
-name: Publish
+name: Publish to Spruce Loader repository
+
 on:
-  push:
-    branches:
-      - 'dev/**'
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    container:
-      image: openjdk:17-jdk
-      options: --user root
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: gradle/wrapper-validation-action@v1
-
-      # Generate the build number based on tags to allow per branch build numbers, not something github provides by default.
-      - name: Generate build number
-        id: buildnumber
-        uses: einaregilsson/build-number@v3
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          token: ${{ secrets.github_token }}
-          prefix: ${{ github.ref }}
-
-      - run: ./gradlew build publish -x test --stacktrace
+          java-version: 17
+          distribution: 'temurin'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Publish with Gradle
         env:
-          MAVEN_URL: ${{ secrets.MAVEN_URL }}
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          SPRUCELOADER_PUBLISHING_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          SPRUCELOADER_PUBLISHING_PASSWORD: ${{ secrets.MAVEN_SECRET }}
+        run: ./gradlew publishAllPublicationsToSpruceSnapshotsRepository --no-daemon --stacktrace
